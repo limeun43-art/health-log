@@ -1001,26 +1001,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // === EVENT LISTENERS ATTACHMENT ===
   function attachEventListeners() {
     // Date Controls
-    prevDateBtn.addEventListener('click', () => changeDateByDays(-1));
-    nextDateBtn.addEventListener('click', () => changeDateByDays(1));
-    todayBtn.addEventListener('click', () => {
-      currentDate = getTodayDateString();
-      datePicker.value = currentDate;
-      updateDateDisplay();
-      renderUI();
-    });
-
-    datePicker.addEventListener('change', (e) => {
-      if (e.target.value) {
-        currentDate = e.target.value;
+    if (prevDateBtn) prevDateBtn.addEventListener('click', () => changeDateByDays(-1));
+    if (nextDateBtn) nextDateBtn.addEventListener('click', () => changeDateByDays(1));
+    if (todayBtn) {
+      todayBtn.addEventListener('click', () => {
+        currentDate = getTodayDateString();
+        if (datePicker) datePicker.value = currentDate;
         updateDateDisplay();
         renderUI();
-      }
-    });
+      });
+    }
+
+    if (datePicker) {
+      datePicker.addEventListener('change', (e) => {
+        if (e.target.value) {
+          currentDate = e.target.value;
+          updateDateDisplay();
+          renderUI();
+        }
+      });
+    }
 
     // Water Controls
-    waterPlusBtn.addEventListener('click', () => addWater(1));
-    waterMinusBtn.addEventListener('click', () => addWater(-1));
+    if (waterPlusBtn) waterPlusBtn.addEventListener('click', () => addWater(1));
+    if (waterMinusBtn) waterMinusBtn.addEventListener('click', () => addWater(-1));
 
     // Cuisine Category Buttons
     catBigBtns.forEach(btn => {
@@ -1226,12 +1230,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // INITIALIZATION
   function init() {
-    waterTargetCountEl.textContent = TARGET_WATER_GLASSES;
+    if (waterTargetCountEl) waterTargetCountEl.textContent = TARGET_WATER_GLASSES;
     if (targetCaloriesText) targetCaloriesText.textContent = TARGET_CALORIES.toLocaleString();
-    datePicker.value = currentDate;
+    if (datePicker) datePicker.value = currentDate;
     updateDateDisplay();
     render8CupsGrid();
-    renderMenuCards(activeCuisineCategory);
+    if (menuCardsGrid) renderMenuCards(activeCuisineCategory);
     attachEventListeners();
     renderUI();
     switchViewMode('daily');
