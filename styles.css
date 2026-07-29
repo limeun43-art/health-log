@@ -75,7 +75,12 @@
 
 body {
   font-family: var(--font-body);
-  background: var(--bg-gradient);
+  background-color: #FFF5F8;
+  background-image: url('hello_kitty_couple.png');
+  background-repeat: repeat;
+  background-position: center top;
+  background-size: 200px auto;
+  background-attachment: fixed;
   color: var(--text-main);
   min-height: 100vh;
   padding: 16px 10px;
