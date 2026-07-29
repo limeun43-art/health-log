@@ -1,0 +1,24 @@
+{
+  "2026-07-28": {
+    "water": 0,
+    "celebrated": false,
+    "foods": []
+  },
+  "2026-07-29": {
+    "water": 7,
+    "celebrated": false,
+    "foods": [],
+    "exercises": [
+      {
+        "id": "ex_1785302032257_8aoe",
+        "timeOfDay": "저녁",
+        "category": "근력",
+        "weight": "없음",
+        "name": "러닝 20분",
+        "duration": 20,
+        "calories": 80,
+        "createdAt": "2026-07-29T05:13:52.257Z"
+      }
+    ]
+  }
+}

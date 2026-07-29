@@ -1,0 +1,5 @@
+# robots.txt for 얌얌 & 퐁당 & 오운완 (Naver Yeti, Googlebot, Daumoa, Bingbot, etc.)
+User-agent: *
+Allow: /
+
+Sitemap: http://localhost:3000/sitemap.xml

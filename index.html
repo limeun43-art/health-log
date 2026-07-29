@@ -3,7 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>얌얌 & 퐁당 🍽️💧 | 오늘의 식단 & 물 기록장</title>
+  <title>얌얌 & 퐁당 & 오운완 🍽️💧💪 | 오늘의 식단, 물 & 운동 기록장</title>
+  
+  <!-- Primary SEO Meta Tags -->
+  <meta name="description" content="매일 식단 기록, 하루 8잔 물 마시기 수분 관리, 아령 중량별 운동 기록(오운완)과 칼로리 계산기! 참 잘했어요 칭찬 스탬프와 주간/월간 데이터 통계까지 한눈에 관리하는 나만의 스마트 헬스 로그">
+  <meta name="keywords" content="식단기록, 물마시기, 수분섭취량, 운동기록, 오운완, 칼로리계산기, 건강일지, 얌얌퐁당, 아령운동, 다이어트일기, 삼총사달성">
+  <meta name="author" content="얌얌 & 퐁당 & 오운완 팀">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="http://localhost:3000/">
+
+  <!-- Open Graph / Naver / KakaoTalk Sharing Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:3000/">
+  <meta property="og:title" content="얌얌 & 퐁당 & 오운완 🍽️💧💪 | 건강 식단·수분·운동 기록장">
+  <meta property="og:description" content="식단 칼로리 계산, 하루 8잔 수분 관리, 아령 중량별 운동 기록과 참 잘했어요 칭찬 스탬프 달성까지 스마트하게 관리해보세요!">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1200&q=80">
+  <meta property="og:site_name" content="얌얌 & 퐁당 & 오운완">
+  <meta property="og:locale" content="ko_KR">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="얌얌 & 퐁당 & 오운완 🍽️💧💪">
+  <meta name="twitter:description" content="오늘의 건강한 식단, 촉촉한 물 & 활력 운동 기록장!">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1200&q=80">
+
+  <!-- Search Engine Verification Placeholders (Naver Advisor & Google Console) -->
+  <meta name="naver-site-verification" content="naver_site_verification_code_placeholder">
+  <meta name="google-site-verification" content="google_site_verification_code_placeholder">
+
+  <!-- Schema.org JSON-LD Structured Data for Google Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "얌얌 & 퐁당 & 오운완",
+    "url": "http://localhost:3000/",
+    "description": "오늘의 건강한 식단 기록, 물 8잔 수분 관리, 아령 중량별 운동 소모 칼로리 계산 및 월간 참 잘했어요 스탬프 달성 헬스 로그",
+    "applicationCategory": "HealthAndFitnessApplication",
+    "operatingSystem": "All",
+    "inLanguage": "ko",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW"
+    }
+  }
+  </script>
   
   <!-- Google Fonts: Jua (Title/Header), Gowun Dodum (Body), Fredoka (Numbers) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,233 +71,45 @@
       <div class="logo-area">
         <span class="logo-icon">🥗</span>
         <div class="logo-text">
-          <h1>얌얌 & 퐁당</h1>
-          <p class="subtitle">오늘의 건강한 식단과 촉촉한 물 기록장 ✨</p>
+          <h1>얌얌 & 퐁당 & 오운완</h1>
+          <p class="subtitle">오늘의 건강한 식단, 촉촉한 물 & 활력 운동 기록장 ✨</p>
         </div>
-        <span class="logo-icon">💧</span>
+        <span class="logo-icon">🏋️‍♂️</span>
       </div>
 
-      <!-- Date Navigator -->
-      <div class="date-navigator-card">
-        <button id="prev-date-btn" class="nav-arrow-btn" title="어제"><i class="fa-solid fa-chevron-left"></i></button>
-        <div class="date-display-wrapper">
-          <i class="fa-regular fa-calendar-heart date-icon"></i>
-          <input type="date" id="date-picker" class="custom-date-input">
-          <span id="date-text" class="date-text">2026년 7월 24일 (금)</span>
-          <button id="today-btn" class="today-badge">오늘</button>
+      <!-- Date Navigator & Header Stats Action -->
+      <div class="header-action-row">
+        <div class="date-navigator-card">
+          <button id="prev-date-btn" class="nav-arrow-btn" title="이전"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="date-display-wrapper">
+            <i class="fa-regular fa-calendar-heart date-icon"></i>
+            <input type="date" id="date-picker" class="custom-date-input">
+            <span id="date-text" class="date-text">2026년 7월 28일 (화)</span>
+            <button id="today-btn" class="today-badge">오늘</button>
+          </div>
+          <button id="next-date-btn" class="nav-arrow-btn" title="다음"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-        <button id="next-date-btn" class="nav-arrow-btn" title="내일"><i class="fa-solid fa-chevron-right"></i></button>
+
+        <!-- View Segmented Tabs [일간 | 주간 | 월간] -->
+        <div class="view-segmented-tabs">
+          <button type="button" class="view-seg-tab active" data-view="daily">일간</button>
+          <button type="button" class="view-seg-tab" data-view="weekly">주간</button>
+          <button type="button" class="view-seg-tab" data-view="monthly">월간 달력</button>
+        </div>
+
+        <button id="open-stats-btn" class="stats-header-btn">
+          <i class="fa-solid fa-chart-pie"></i> 통계 & 히스토리
+        </button>
+
+        <button id="reset-data-btn" class="stats-header-btn reset-header-btn" title="오늘 및 전체 기록 초기화">
+          <i class="fa-solid fa-rotate-left"></i> 기록 초기화
+        </button>
       </div>
     </header>
 
-    <!-- Main Grid Content -->
-    <main class="main-content">
-
-      <!-- WATER TRACKER CARD -->
-      <section class="card water-card">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="badge-icon water-bg"><i class="fa-solid fa-droplet"></i></span>
-            <div>
-              <h2>물 마시기 퐁당 💧</h2>
-              <p class="card-sub">하루 8잔(약 2L) 목표를 채워보아요!</p>
-            </div>
-          </div>
-          <div class="water-count-badge">
-            <span id="water-current-count" class="highlight-num">0</span> / <span id="water-target-count">8</span> 잔
-          </div>
-        </div>
-
-        <!-- Water Progress & Interactive Cups -->
-        <div class="water-tracker-body">
-          
-          <!-- Large Interactive Counter Controls -->
-          <div class="water-control-group">
-            <button id="water-minus-btn" class="water-btn minus-btn" title="1잔 줄이기">
-              <i class="fa-solid fa-minus"></i>
-            </button>
-            
-            <div class="water-main-display" id="water-main-display">
-              <div class="water-bottle-icon" id="water-bottle-icon">
-                <i class="fa-solid fa-glass-water"></i>
-              </div>
-              <div class="water-status-text">
-                <span id="water-percentage">0%</span>
-                <small id="water-liters">0 / 2.0 L</small>
-              </div>
-            </div>
-
-            <button id="water-plus-btn" class="water-btn plus-btn" title="1잔 더 마시기">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
-
-          <!-- Progress Bar -->
-          <div class="progress-bar-container">
-            <div id="water-progress-fill" class="progress-bar-fill" style="width: 0%;">
-              <span class="wave-effect"></span>
-            </div>
-          </div>
-
-          <!-- 8 Visual Glasses Grid -->
-          <div class="water-glasses-grid" id="water-glasses-grid">
-            <!-- 8 Glass Items generated by JS -->
-          </div>
-
-          <!-- Celebration Message Banner (Triggers on 8+ glasses) -->
-          <div id="water-goal-banner" class="goal-banner hidden">
-            <span class="banner-emoji">🎉</span>
-            <div class="banner-content">
-              <strong>오늘의 물 목표 달성! 🎉</strong>
-              <p>몸속 세포들이 촉촉하게 기뻐하고 있어요 💧✨</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- FOOD TRACKER CARD -->
-      <section class="card food-card">
-        <div class="card-header">
-          <div class="card-title">
-            <span class="badge-icon food-bg"><i class="fa-solid fa-utensils"></i></span>
-            <div>
-              <h2>오늘 먹은 음식 냠냠 🍽️</h2>
-              <p class="card-sub">종류 선택 후 메뉴 버튼만 누르면 자동 입력!</p>
-            </div>
-          </div>
-          <div class="calorie-total-badge">
-            총 <span id="total-calories" class="highlight-num">0</span> kcal
-          </div>
-        </div>
-
-        <!-- EASY PRESET MENU SELECTION BOX (Top Priority) -->
-        <div class="easy-menu-box">
-          <div class="easy-box-header">
-            <span class="box-title"><i class="fa-solid fa-wand-magic-sparkles"></i> 초간단 메뉴 선택기</span>
-            <span class="box-hint">종류를 누르면 대표 메뉴가 나와요!</span>
-          </div>
-
-          <!-- 1. Cuisine Category Big Buttons -->
-          <div class="cuisine-cat-buttons">
-            <button type="button" class="cat-big-btn active" data-cuisine="한식">
-              <span class="cat-emoji">🇰🇷</span>
-              <span class="cat-label">한식</span>
-            </button>
-            <button type="button" class="cat-big-btn" data-cuisine="양식">
-              <span class="cat-emoji">🍝</span>
-              <span class="cat-label">양식</span>
-            </button>
-            <button type="button" class="cat-big-btn" data-cuisine="중식">
-              <span class="cat-emoji">🇨🇳</span>
-              <span class="cat-label">중식</span>
-            </button>
-            <button type="button" class="cat-big-btn" data-cuisine="일식">
-              <span class="cat-emoji">🍣</span>
-              <span class="cat-label">일식</span>
-            </button>
-            <button type="button" class="cat-big-btn" data-cuisine="분식/디저트">
-              <span class="cat-emoji">🍰</span>
-              <span class="cat-label">분식/디저트</span>
-            </button>
-          </div>
-
-          <!-- 2. Representative Menu Cards Grid -->
-          <div class="representative-menu-container">
-            <div class="menu-grid-label" id="current-cat-label">🇰🇷 한식 대표 메뉴 (클릭하면 자동 입력!)</div>
-            <div class="menu-cards-grid" id="menu-cards-grid">
-              <!-- Menu buttons dynamically generated by JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Add Food Form -->
-        <form id="food-form" class="food-form">
-          <div class="form-row">
-            <!-- Meal Type Selector -->
-            <div class="meal-type-selector">
-              <input type="radio" name="mealType" id="meal-breakfast" value="아침" checked>
-              <label for="meal-breakfast" class="meal-chip"><span class="chip-icon">🍳</span> 아침</label>
-
-              <input type="radio" name="mealType" id="meal-lunch" value="점심">
-              <label for="meal-lunch" class="meal-chip"><span class="chip-icon">🍱</span> 점심</label>
-
-              <input type="radio" name="mealType" id="meal-dinner" value="저녁">
-              <label for="meal-dinner" class="meal-chip"><span class="chip-icon">🍲</span> 저녁</label>
-
-              <input type="radio" name="mealType" id="meal-snack" value="간식">
-              <label for="meal-snack" class="meal-chip"><span class="chip-icon">🍩</span> 간식</label>
-            </div>
-          </div>
-
-          <!-- Hidden Cuisine Type Radio for Storage Sync -->
-          <div class="cuisine-type-selector hidden-radio-group">
-            <input type="radio" name="cuisineType" id="cuisine-korean" value="한식" checked>
-            <input type="radio" name="cuisineType" id="cuisine-western" value="양식">
-            <input type="radio" name="cuisineType" id="cuisine-chinese" value="중식">
-            <input type="radio" name="cuisineType" id="cuisine-japanese" value="일식">
-            <input type="radio" name="cuisineType" id="cuisine-snack" value="분식/디저트">
-          </div>
-
-          <div class="form-inputs-row">
-            <div class="input-group flex-2">
-              <label for="food-name-input"><i class="fa-solid fa-burger"></i> 음식이름 <span class="req">*</span></label>
-              <input type="text" id="food-name-input" placeholder="위에서 메뉴 선택 또는 직접 입력..." required maxlength="40">
-            </div>
-
-            <div class="input-group flex-1">
-              <label for="food-calorie-input"><i class="fa-solid fa-fire-flame-curved"></i> 칼로리 (자동채움)</label>
-              <div class="input-unit-wrapper">
-                <input type="number" id="food-calorie-input" placeholder="0" min="0" max="9999" step="1">
-                <span class="unit">kcal</span>
-              </div>
-            </div>
-
-            <button type="submit" class="add-food-btn">
-              <i class="fa-solid fa-plus"></i> 추가하기
-            </button>
-          </div>
-        </form>
-
-        <!-- Food List & Search Container -->
-        <div class="food-list-container">
-          
-          <!-- SEARCH BAR for Cuisine / Food Name -->
-          <div class="search-bar-wrapper">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="food-search-input" placeholder="음식 이름 또는 '한식', '양식', '중식', '일식' 검색..." autocomplete="off">
-            <button type="button" id="clear-search-btn" class="clear-search-btn hidden" title="검색어 지우기">
-              <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-          </div>
-
-          <!-- Meal Category Filter Tabs -->
-          <div class="meal-filter-tabs">
-            <button class="filter-tab active" data-filter="전체">전체 보기</button>
-            <button class="filter-tab" data-filter="한식">🇰🇷 한식</button>
-            <button class="filter-tab" data-filter="양식">🍝 양식</button>
-            <button class="filter-tab" data-filter="중식">🇨🇳 중식</button>
-            <button class="filter-tab" data-filter="일식">🍣 일식</button>
-            <button class="filter-tab" data-filter="분식/디저트">🍰 분식/디저트</button>
-          </div>
-
-          <!-- Empty State -->
-          <div id="food-empty-state" class="empty-state">
-            <div class="empty-icon">🍽️</div>
-            <p id="empty-state-title">아직 입력된 음식 기록이 없어요!</p>
-            <small id="empty-state-sub">상단의 대표 메뉴 버튼을 눌러보세요 😋</small>
-          </div>
-
-          <!-- Food Items List -->
-          <ul id="food-list" class="food-list">
-            <!-- Dynamic Food Items JS -->
-          </ul>
-        </div>
-      </section>
-    </main>
-
-    <!-- Daily Summary / Cute Footer Info -->
-    <footer class="app-footer">
-      <div class="footer-card">
+    <!-- TOP DAILY SUMMARY STATS BANNER -->
+    <div class="top-summary-banner">
+      <div class="footer-card summary-card">
         <div class="footer-stat">
           <span class="stat-icon">💧</span>
           <div>
@@ -272,12 +129,603 @@
         <div class="footer-stat">
           <span class="stat-icon">🔥</span>
           <div>
-            <span class="stat-label">오늘 총 칼로리</span>
+            <span class="stat-label">오늘 총 섭취</span>
             <span id="footer-total-cal" class="stat-val">0 kcal</span>
           </div>
         </div>
+        <div class="divider"></div>
+        <div class="footer-stat">
+          <span class="stat-icon">💪</span>
+          <div>
+            <span class="stat-label">운동 소모</span>
+            <span id="footer-exercise-burn" class="stat-val">0 kcal</span>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="footer-stat">
+          <span class="stat-icon">💮</span>
+          <div>
+            <span class="stat-label">삼총사 달성</span>
+            <span id="footer-stamp-status" class="stat-val">도전 중!</span>
+          </div>
+        </div>
       </div>
-      <p class="copyright-text">매일매일 건강해지는 습관! 얌얌 & 퐁당 💕</p>
+    </div>
+
+    <!-- Main Grid Content (2-Column Balanced Layout) -->
+    <main class="main-content">
+
+      <!-- LEFT COLUMN: Water Tracker -->
+      <div class="col-left">
+        
+        <!-- WATER TRACKER CARD -->
+        <section class="card water-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="badge-icon water-bg"><i class="fa-solid fa-droplet"></i></span>
+              <div>
+                <h2>물 마시기 퐁당 💧</h2>
+                <p class="card-sub">하루 8잔(약 2L) 목표를 채워보아요!</p>
+              </div>
+            </div>
+            <div class="water-count-badge">
+              <span id="water-current-count" class="highlight-num">0</span> / <span id="water-target-count">8</span> 잔
+            </div>
+          </div>
+
+          <!-- Water Progress & Interactive Cups -->
+          <div class="water-tracker-body">
+            
+            <!-- Large Interactive Counter Controls -->
+            <div class="water-control-group">
+              <button id="water-minus-btn" class="water-btn minus-btn" title="1잔 줄이기">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              
+              <div class="water-main-display" id="water-main-display">
+                <div class="water-bottle-icon" id="water-bottle-icon">
+                  <i class="fa-solid fa-glass-water"></i>
+                </div>
+                <div class="water-status-text">
+                  <span id="water-percentage">0%</span>
+                  <small id="water-liters">0 / 2.0 L</small>
+                </div>
+              </div>
+
+              <button id="water-plus-btn" class="water-btn plus-btn" title="1잔 더 마시기">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+              <div id="water-progress-fill" class="progress-bar-fill" style="width: 0%;">
+                <span class="wave-effect"></span>
+              </div>
+            </div>
+
+            <!-- 8 Visual Glasses Grid -->
+            <div class="water-glasses-grid" id="water-glasses-grid">
+              <!-- 8 Glass Items generated by JS -->
+            </div>
+
+            <!-- Celebration Message Banner (Triggers on 8+ glasses) -->
+            <div id="water-goal-banner" class="goal-banner hidden">
+              <span class="banner-emoji">🎉</span>
+              <div class="banner-content">
+                <strong>오늘의 물 목표 달성! 🎉</strong>
+                <p>몸속 세포들이 촉촉하게 기뻐하고 있어요 💧✨</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Food Tracker & Exercise Tracker -->
+      <div class="col-right">
+        
+        <!-- FOOD TRACKER CARD -->
+        <section class="card food-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="badge-icon food-bg"><i class="fa-solid fa-utensils"></i></span>
+              <div>
+                <h2>오늘 먹은 음식 냠냠 🍽️</h2>
+                <p class="card-sub">끼니별 카드의 '+ 음식 추가' 버튼을 눌러 기록해보세요!</p>
+              </div>
+            </div>
+            <div class="calorie-summary-wrapper">
+              <div class="calorie-total-badge">
+                총 <span id="total-calories" class="highlight-num">0</span> / <span id="target-calories-text">2,000</span> kcal
+                <span id="cal-percent-badge" class="cal-percent-badge">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CALORIE GOAL PROGRESS BAR -->
+          <div class="calorie-progress-container">
+            <div class="cal-progress-bar-track">
+              <div id="calorie-progress-fill" class="cal-progress-bar-fill" style="width: 0%;">
+                <span class="cal-wave-effect"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOOD CALORIE SEARCH SHORTCUT CARD BANNER -->
+          <div class="single-search-banner-wrapper">
+            <button type="button" class="search-banner-card food-search-card" id="open-food-search-card-btn">
+              <div class="banner-card-text">
+                <span>음식 칼로리</span>
+                <span>검색하기</span>
+              </div>
+              <div class="banner-card-icon">🥗</div>
+            </button>
+          </div>
+
+          <!-- 4 MEAL TIMELINE CARDS (아침, 점심, 저녁, 간식) -->
+          <div class="meal-cards-container">
+            <div class="meal-cards-grid">
+              <!-- 1. 아침 Card -->
+              <div class="meal-card-item" data-meal="아침">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">🍳</span>
+                    <h3>아침</h3>
+                  </div>
+                  <span class="meal-subtotal-badge" id="subtotal-아침">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="meal-list-아침">
+                    <!-- Food Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="meal-empty-아침">기록된 아침 식사가 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn" data-meal="아침">
+                  <i class="fa-solid fa-plus"></i> 아침 음식 추가
+                </button>
+              </div>
+
+              <!-- 2. 점심 Card -->
+              <div class="meal-card-item" data-meal="점심">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">🍱</span>
+                    <h3>점심</h3>
+                  </div>
+                  <span class="meal-subtotal-badge" id="subtotal-점심">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="meal-list-점심">
+                    <!-- Food Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="meal-empty-점심">기록된 점심 식사가 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn" data-meal="점심">
+                  <i class="fa-solid fa-plus"></i> 점심 음식 추가
+                </button>
+              </div>
+
+              <!-- 3. 저녁 Card -->
+              <div class="meal-card-item" data-meal="저녁">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">🍲</span>
+                    <h3>저녁</h3>
+                  </div>
+                  <span class="meal-subtotal-badge" id="subtotal-저녁">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="meal-list-저녁">
+                    <!-- Food Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="meal-empty-저녁">기록된 저녁 식사가 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn" data-meal="저녁">
+                  <i class="fa-solid fa-plus"></i> 저녁 음식 추가
+                </button>
+              </div>
+
+              <!-- 4. 간식 Card -->
+              <div class="meal-card-item" data-meal="간식">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">🍩</span>
+                    <h3>간식</h3>
+                  </div>
+                  <span class="meal-subtotal-badge" id="subtotal-간식">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="meal-list-간식">
+                    <!-- Food Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="meal-empty-간식">기록된 간식이 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn" data-meal="간식">
+                  <i class="fa-solid fa-plus"></i> 간식 음식 추가
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXERCISE TRACKER CARD -->
+        <section class="card exercise-card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="badge-icon exercise-bg"><i class="fa-solid fa-dumbbell"></i></span>
+              <div>
+                <h2>오늘의 운동 오운완 💪</h2>
+                <p class="card-sub">아령 중량별 운동과 유산소로 소모 칼로리를 채워보아요!</p>
+              </div>
+            </div>
+            <div class="exercise-summary-wrapper">
+              <div class="exercise-total-badge">
+                총 <span id="total-exercise-burn" class="highlight-orange">0</span> kcal 소모
+              </div>
+            </div>
+          </div>
+          <!-- EXERCISE CALORIE SEARCH SHORTCUT CARD BANNER -->
+          <div class="single-search-banner-wrapper">
+            <button type="button" class="search-banner-card exercise-search-card" id="open-ex-search-card-btn">
+              <div class="banner-card-text">
+                <span>운동 칼로리</span>
+                <span>검색하기</span>
+              </div>
+              <div class="banner-card-icon">🏋️‍♂️</div>
+            </button>
+          </div>
+          <div class="meal-cards-container">
+            <div class="meal-cards-grid">
+              <!-- 1. 아침 운동 -->
+              <div class="meal-card-item exercise-card-item" data-ex-time="아침">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">🌅</span>
+                    <h3>아침 운동</h3>
+                  </div>
+                  <span class="ex-subtotal-badge" id="ex-subtotal-아침">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="ex-list-아침">
+                    <!-- Exercise Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="ex-empty-아침">기록된 아침 운동이 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn add-ex-btn" data-ex-time="아침">
+                  <i class="fa-solid fa-plus"></i> 아침 운동 추가
+                </button>
+              </div>
+
+              <!-- 2. 점심 운동 -->
+              <div class="meal-card-item exercise-card-item" data-ex-time="점심">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">☀️</span>
+                    <h3>점심 운동</h3>
+                  </div>
+                  <span class="ex-subtotal-badge" id="ex-subtotal-점심">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="ex-list-점심">
+                    <!-- Exercise Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="ex-empty-점심">기록된 점심 운동이 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn add-ex-btn" data-ex-time="점심">
+                  <i class="fa-solid fa-plus"></i> 점심 운동 추가
+                </button>
+              </div>
+
+              <!-- 3. 저녁 운동 -->
+              <div class="meal-card-item exercise-card-item" data-ex-time="저녁">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">🌙</span>
+                    <h3>저녁 운동</h3>
+                  </div>
+                  <span class="ex-subtotal-badge" id="ex-subtotal-저녁">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="ex-list-저녁">
+                    <!-- Exercise Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="ex-empty-저녁">기록된 저녁 운동이 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn add-ex-btn" data-ex-time="저녁">
+                  <i class="fa-solid fa-plus"></i> 저녁 운동 추가
+                </button>
+              </div>
+
+              <!-- 4. 야간 운동 -->
+              <div class="meal-card-item exercise-card-item" data-ex-time="야간">
+                <div class="meal-card-header">
+                  <div class="meal-title-group">
+                    <span class="meal-emoji">🌃</span>
+                    <h3>야간 운동</h3>
+                  </div>
+                  <span class="ex-subtotal-badge" id="ex-subtotal-야간">0 kcal</span>
+                </div>
+                <div class="meal-card-body">
+                  <ul class="meal-food-list" id="ex-list-야간">
+                    <!-- Exercise Items JS -->
+                  </ul>
+                  <div class="meal-empty-text" id="ex-empty-야간">기록된 야간 운동이 없어요</div>
+                </div>
+                <button type="button" class="add-meal-food-btn add-ex-btn" data-ex-time="야간">
+                  <i class="fa-solid fa-plus"></i> 야간 운동 추가
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+
+    <!-- WEEKLY SUMMARY VIEW CONTAINER (Hidden by default) -->
+    <div id="weekly-view-container" class="view-container hidden">
+      <div class="card weekly-card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="badge-icon stats-bg"><i class="fa-solid fa-calendar-week"></i></span>
+            <div>
+              <h2>주간 레포트 (최근 7일 요약)</h2>
+              <p class="card-sub">물, 식단, 운동 소모 칼로리 주간 트렌드를 확인해보세요!</p>
+            </div>
+          </div>
+        </div>
+        <div class="weekly-body" id="weekly-body-content">
+          <!-- JS Rendered -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MONTHLY CALENDAR VIEW CONTAINER (Hidden by default) -->
+    <div id="monthly-view-container" class="view-container hidden">
+      <div class="card monthly-card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="badge-icon stamp-bg"><i class="fa-solid fa-calendar-days"></i></span>
+            <div>
+              <h2 id="calendar-month-title">월간 달력 및 '참 잘했어요 💮' 스탬프</h2>
+              <p class="card-sub">물(8잔)+식단+운동 삼총사 목표 완수 시 칭찬 스탬프가 찍혀요!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="monthly-calendar-body">
+          <div class="calendar-weekdays-header">
+            <span class="sun">일</span>
+            <span>월</span>
+            <span>화</span>
+            <span>수</span>
+            <span>목</span>
+            <span>금</span>
+            <span class="sat">토</span>
+          </div>
+
+          <div class="calendar-days-grid" id="calendar-days-grid">
+            <!-- Dynamic 35/42 Calendar Cells JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOD INPUT MODAL -->
+    <div id="food-input-modal" class="modal-overlay hidden">
+      <div class="modal-card food-modal-card">
+        <button id="close-food-modal-btn" class="modal-close-icon" type="button"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div class="food-modal-header">
+          <span class="modal-header-icon" id="modal-meal-icon">🍳</span>
+          <h2 class="modal-title" id="modal-title-text">음식 추가하기</h2>
+        </div>
+
+        <form id="food-form" class="modal-food-form">
+          <!-- Meal Type Selection Chips in Modal -->
+          <div class="meal-type-selector modal-meal-selector">
+            <input type="radio" name="mealType" id="meal-breakfast" value="아침" checked>
+            <label for="meal-breakfast" class="meal-chip"><span class="chip-icon">🍳</span> 아침</label>
+
+            <input type="radio" name="mealType" id="meal-lunch" value="점심">
+            <label for="meal-lunch" class="meal-chip"><span class="chip-icon">🍱</span> 점심</label>
+
+            <input type="radio" name="mealType" id="meal-dinner" value="저녁">
+            <label for="meal-dinner" class="meal-chip"><span class="chip-icon">🍲</span> 저녁</label>
+
+            <input type="radio" name="mealType" id="meal-snack" value="간식">
+            <label for="meal-snack" class="meal-chip"><span class="chip-icon">🍩</span> 간식</label>
+          </div>
+
+          <!-- Hidden Cuisine Type Radio for Storage Sync -->
+          <div class="cuisine-type-selector hidden-radio-group">
+            <input type="radio" name="cuisineType" id="cuisine-korean" value="한식" checked>
+            <input type="radio" name="cuisineType" id="cuisine-western" value="양식">
+            <input type="radio" name="cuisineType" id="cuisine-chinese" value="중식">
+            <input type="radio" name="cuisineType" id="cuisine-japanese" value="일식">
+            <input type="radio" name="cuisineType" id="cuisine-snack" value="분식/디저트">
+          </div>
+
+          <div class="modal-form-body">
+            <div class="input-group">
+              <label for="food-name-input"><i class="fa-solid fa-burger"></i> 음식이름 <span class="req">*</span></label>
+              <input type="text" id="food-name-input" placeholder="음식 이름을 입력하세요..." required maxlength="40">
+            </div>
+
+            <div class="input-group">
+              <label for="food-calorie-input"><i class="fa-solid fa-fire-flame-curved"></i> 칼로리 (kcal)</label>
+              <div class="input-unit-wrapper">
+                <input type="number" id="food-calorie-input" placeholder="0" min="0" max="9999" step="1">
+                <span class="unit">kcal</span>
+              </div>
+            </div>
+
+            <!-- Quick Preset Menu Chips in Modal -->
+            <div class="modal-preset-tags">
+              <small class="preset-label"><i class="fa-solid fa-wand-magic-sparkles"></i> 인기 대표 메뉴 (클릭 시 자동 입력):</small>
+              <div class="preset-chips-row">
+                <button type="button" class="modal-preset-chip" data-name="김치찌개" data-cal="250">🍲 김치찌개 (250kcal)</button>
+                <button type="button" class="modal-preset-chip" data-name="비빔밥" data-cal="550">🥢 비빔밥 (550kcal)</button>
+                <button type="button" class="modal-preset-chip" data-name="봉골레 파스타" data-cal="450">🍝 봉골레파스타 (450kcal)</button>
+                <button type="button" class="modal-preset-chip" data-name="초밥" data-cal="400">🍣 초밥 (400kcal)</button>
+                <button type="button" class="modal-preset-chip" data-name="샌드위치" data-cal="350">🥪 샌드위치 (350kcal)</button>
+                <button type="button" class="modal-preset-chip" data-name="아메리카노" data-cal="10">☕ 아메리카노 (10kcal)</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-action">
+            <button type="submit" class="cute-primary-btn full-width-btn">
+              <i class="fa-solid fa-check"></i> 식단에 추가하기
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- EXERCISE INPUT MODAL -->
+    <div id="exercise-input-modal" class="modal-overlay hidden">
+      <div class="modal-card exercise-modal-card">
+        <button id="close-ex-modal-btn" class="modal-close-icon" type="button"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div class="food-modal-header orange-modal-header">
+          <span class="modal-header-icon" id="modal-ex-icon">🌅</span>
+          <h2 class="modal-title" id="modal-ex-title-text">운동 추가하기</h2>
+        </div>
+
+        <form id="exercise-form" class="modal-food-form">
+          <!-- Time of Day Selection Chips -->
+          <div class="input-group">
+            <label><i class="fa-solid fa-clock"></i> 시간대 선택</label>
+            <div class="meal-type-selector ex-time-selector">
+              <input type="radio" name="exTimeOfDay" id="ex-time-morning" value="아침" checked>
+              <label for="ex-time-morning" class="meal-chip orange-chip"><span>🌅</span> 아침</label>
+
+              <input type="radio" name="exTimeOfDay" id="ex-time-lunch" value="점심">
+              <label for="ex-time-lunch" class="meal-chip orange-chip"><span>☀️</span> 점심</label>
+
+              <input type="radio" name="exTimeOfDay" id="ex-time-dinner" value="저녁">
+              <label for="ex-time-dinner" class="meal-chip orange-chip"><span>🌙</span> 저녁</label>
+
+              <input type="radio" name="exTimeOfDay" id="ex-time-night" value="야간">
+              <label for="ex-time-night" class="meal-chip orange-chip"><span>🌃</span> 야간</label>
+            </div>
+          </div>
+
+          <!-- Exercise Category Chips -->
+          <div class="input-group">
+            <label><i class="fa-solid fa-list"></i> 운동 카테고리</label>
+            <div class="ex-cat-selector">
+              <input type="radio" name="exCategory" id="cat-cardio" value="유산소">
+              <label for="cat-cardio" class="cat-chip">🏃 유산소</label>
+
+              <input type="radio" name="exCategory" id="cat-strength" value="근력" checked>
+              <label for="cat-strength" class="cat-chip">🏋️‍♂️ 근력 (아령)</label>
+
+              <input type="radio" name="exCategory" id="cat-stretch" value="스트레칭">
+              <label for="cat-stretch" class="cat-chip">🧘 스트레칭</label>
+
+              <input type="radio" name="exCategory" id="cat-etc" value="기타">
+              <label for="cat-etc" class="cat-chip">⚡ 기타</label>
+            </div>
+          </div>
+
+          <!-- Dumbbell Weight Chips (Shown for Strength / Dumbbell) -->
+          <div class="input-group" id="dumbbell-weight-group">
+            <label><i class="fa-solid fa-weight-hanging"></i> 아령(덤벨) 중량 선택 <span class="req">*</span></label>
+            <div class="weight-chip-group">
+              <input type="radio" name="exWeight" id="w-05" value="0.5kg">
+              <label for="w-05" class="weight-chip">🏋️ 0.5kg</label>
+
+              <input type="radio" name="exWeight" id="w-10" value="1kg" checked>
+              <label for="w-10" class="weight-chip">🏋️ 1kg</label>
+
+              <input type="radio" name="exWeight" id="w-30" value="3kg">
+              <label for="w-30" class="weight-chip">🏋️ 3kg</label>
+
+              <input type="radio" name="exWeight" id="w-none" value="없음">
+              <label for="w-none" class="weight-chip">맨몸 / 기타</label>
+            </div>
+          </div>
+
+          <div class="modal-form-body">
+            <div class="input-group">
+              <label for="ex-name-input"><i class="fa-solid fa-pen"></i> 운동 이름 <span class="req">*</span></label>
+              <input type="text" id="ex-name-input" placeholder="예: 아령 1kg 덤벨 숄더 프레스" required maxlength="40">
+            </div>
+
+            <div class="form-inputs-row">
+              <div class="input-group flex-1">
+                <label for="ex-duration-input"><i class="fa-solid fa-hourglass-half"></i> 운동 시간 (분)</label>
+                <div class="input-unit-wrapper">
+                  <input type="number" id="ex-duration-input" value="15" min="1" max="300" step="1">
+                  <span class="unit">분</span>
+                </div>
+              </div>
+
+              <div class="input-group flex-1">
+                <label for="ex-calorie-input"><i class="fa-solid fa-fire"></i> 소모 칼로리 (자동계산)</label>
+                <div class="input-unit-wrapper">
+                  <input type="number" id="ex-calorie-input" placeholder="0" min="0" max="9999" step="1">
+                  <span class="unit">kcal</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Exercise Preset Chips in Modal -->
+            <div class="modal-preset-tags">
+              <small class="preset-label orange-label"><i class="fa-solid fa-fire"></i> 대표 운동 추천 (클릭 시 자동 입력):</small>
+              <div class="preset-chips-row">
+                <button type="button" class="modal-ex-preset-chip" data-name="아령 1kg 15분" data-cat="근력" data-weight="1kg" data-min="15" data-cal="50">🏋️‍♂️ 아령 1kg (50kcal)</button>
+                <button type="button" class="modal-ex-preset-chip" data-name="아령 3kg 15분" data-cat="근력" data-weight="3kg" data-min="15" data-cal="80">🏋️‍♂️ 아령 3kg (80kcal)</button>
+                <button type="button" class="modal-ex-preset-chip" data-name="걷기 30분" data-cat="유산소" data-weight="없음" data-min="30" data-cal="100">🚶 걷기 30분 (100kcal)</button>
+                <button type="button" class="modal-ex-preset-chip" data-name="러닝 20분" data-cat="유산소" data-weight="없음" data-min="20" data-cal="180">🏃 러닝 20분 (180kcal)</button>
+                <button type="button" class="modal-ex-preset-chip" data-name="스쿼트 15분" data-cat="근력" data-weight="맨몸" data-min="15" data-cal="90">🦵 스쿼트 (90kcal)</button>
+                <button type="button" class="modal-ex-preset-chip" data-name="스트레칭 15분" data-cat="스트레칭" data-weight="없음" data-min="15" data-cal="40">🧘 스트레칭 (40kcal)</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-action">
+            <button type="submit" class="cute-primary-btn orange-btn full-width-btn">
+              <i class="fa-solid fa-check"></i> 오운완 추가하기 💪
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TRIPLE STAMP CELEBRATION MODAL -->
+    <div id="triple-stamp-modal" class="modal-overlay hidden">
+      <div class="modal-card stamp-modal-card">
+        <button id="close-stamp-modal-btn" class="modal-close-icon" type="button"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div class="stamp-badge-wrapper">
+          <span class="glowing-stamp-icon">💮</span>
+        </div>
+
+        <h2 class="modal-title">참 잘했어요! 🎉</h2>
+        <h3 class="modal-highlight orange-text">오늘의 삼총사 목표 완수! ✨</h3>
+        
+        <p class="modal-desc">
+          💧 <strong>물 8잔</strong> + 🍽️ <strong>식단 기록</strong> + 🏋️‍♂️ <strong>운동 완수</strong><br>
+          오늘 하루도 아주 훌륭하게 완벽 케어하셨어요!<br>
+          달력에 <strong>'참 잘했어요 💮'</strong> 스탬프가 추가되었습니다 💕
+        </p>
+
+        <div class="modal-action">
+          <button id="stamp-modal-confirm-btn" class="cute-primary-btn orange-btn">
+            스탬프 확인하기 💮
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+      <p class="copyright-text">매일매일 건강해지는 습관! 얌얌 & 퐁당 & 오운완 💕</p>
     </footer>
   </div>
 
@@ -302,6 +750,79 @@
         <button id="modal-confirm-btn" class="cute-primary-btn">
           최고예요! 👍
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS & HISTORY MODAL -->
+  <div id="stats-modal" class="modal-overlay hidden">
+    <div class="modal-card stats-modal-card">
+      <button id="close-stats-modal-btn" class="modal-close-icon" type="button"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="stats-modal-header">
+        <span class="stats-header-icon">📊</span>
+        <div>
+          <h2 class="modal-title">건강 통계 & 히스토리 리포트</h2>
+          <p class="modal-subtext">저장된 기록 분석 및 최근 7일 동향 그래프</p>
+        </div>
+      </div>
+
+      <div class="stats-modal-body">
+        <!-- 3 Big Stat Cards -->
+        <div class="stats-summary-grid">
+          <div class="stat-summary-card blue-card">
+            <span class="card-stat-icon">🗓️</span>
+            <div>
+              <span class="card-stat-val" id="stat-total-days">0</span>
+              <span class="card-stat-label">총 기록 일수</span>
+            </div>
+          </div>
+          <div class="stat-summary-card cyan-card">
+            <span class="card-stat-icon">💧</span>
+            <div>
+              <span class="card-stat-val" id="stat-avg-water">0잔</span>
+              <span class="card-stat-label">하루 평균 물</span>
+            </div>
+          </div>
+          <div class="stat-summary-card pink-card">
+            <span class="card-stat-icon">🔥</span>
+            <div>
+              <span class="card-stat-val" id="stat-avg-cal">0 kcal</span>
+              <span class="card-stat-label">하루 평균 칼로리</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 Days Trend Chart Bar Section -->
+        <div class="trend-section-box">
+          <div class="trend-box-header">
+            <h3><i class="fa-solid fa-chart-column"></i> 최근 7일 섭취 동향 (물 & 칼로리)</h3>
+            <span class="trend-legend"><span class="leg-water">💧 물(잔)</span> <span class="leg-cal">🔥 칼로리(kcal)</span></span>
+          </div>
+
+          <div class="trend-bars-container" id="trend-bars-container">
+            <!-- 7 Bars dynamically generated JS -->
+          </div>
+        </div>
+
+        <!-- Two Column Layout: Top Foods & Date History -->
+        <div class="stats-two-col">
+          <!-- Top Foods List -->
+          <div class="top-foods-box">
+            <h3><i class="fa-solid fa-trophy"></i> 자주 먹은 메뉴 TOP 5</h3>
+            <ol class="top-foods-list" id="stat-top-foods">
+              <!-- JS rendered -->
+            </ol>
+          </div>
+
+          <!-- History Dates List -->
+          <div class="history-list-box">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> 지난 기록 바로가기</h3>
+            <ul class="history-dates-list" id="stat-history-list">
+              <!-- JS rendered -->
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
