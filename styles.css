@@ -295,11 +295,7 @@ body {
 
 /* Temporary eye placement helper */
 .eye-blink {
-  position: absolute;
-  border: 4px solid green;
-  background: rgba(0, 255, 0, 0.6);
-  z-index: 100;
-  pointer-events: none;
+  display: none;
 }
 
 .giraffe-left .eye-l {
