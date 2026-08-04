@@ -569,9 +569,20 @@
           </div>
 
           <div class="modal-form-body">
-            <div class="input-group">
+            <div class="input-group search-input-group">
               <label for="food-name-input"><i class="fa-solid fa-burger"></i> 음식이름 <span class="req">*</span></label>
-              <input type="text" id="food-name-input" placeholder="음식 이름을 입력하세요..." required maxlength="40">
+              <input type="text" id="food-name-input" placeholder="음식 이름을 검색하거나 입력하세요..." required maxlength="40" autocomplete="off">
+              <div id="food-search-dropdown" class="search-results-dropdown hidden"></div>
+            </div>
+
+            <!-- Recommended Keyword Tags -->
+            <div class="recommended-tags">
+              <button type="button" class="rec-tag-btn" data-name="햇반" data-cal="310">#햇반</button>
+              <button type="button" class="rec-tag-btn" data-name="골드키위" data-cal="55">#골드키위</button>
+              <button type="button" class="rec-tag-btn" data-name="바나나" data-cal="90">#바나나</button>
+              <button type="button" class="rec-tag-btn" data-name="오이" data-cal="15">#오이</button>
+              <button type="button" class="rec-tag-btn" data-name="식빵" data-cal="120">#식빵</button>
+              <button type="button" class="rec-tag-btn" data-name="삶은 계란" data-cal="80">#삶은 계란</button>
             </div>
 
             <div class="input-group">
@@ -671,9 +682,20 @@
           </div>
 
           <div class="modal-form-body">
-            <div class="input-group">
+            <div class="input-group search-input-group">
               <label for="ex-name-input"><i class="fa-solid fa-pen"></i> 운동 이름 <span class="req">*</span></label>
-              <input type="text" id="ex-name-input" placeholder="예: 아령 1kg 덤벨 숄더 프레스" required maxlength="40">
+              <input type="text" id="ex-name-input" placeholder="운동 이름을 검색하거나 입력하세요..." required maxlength="40" autocomplete="off">
+              <div id="ex-search-dropdown" class="search-results-dropdown hidden"></div>
+            </div>
+
+            <!-- Recommended Keyword Tags -->
+            <div class="recommended-tags">
+              <button type="button" class="rec-tag-btn" data-name="런닝" data-cat="유산소">#런닝</button>
+              <button type="button" class="rec-tag-btn" data-name="필라테스" data-cat="스트레칭">#필라테스</button>
+              <button type="button" class="rec-tag-btn" data-name="요가" data-cat="스트레칭">#요가</button>
+              <button type="button" class="rec-tag-btn" data-name="자전거" data-cat="유산소">#자전거</button>
+              <button type="button" class="rec-tag-btn" data-name="수영" data-cat="유산소">#수영</button>
+              <button type="button" class="rec-tag-btn" data-name="웨이트 트레이닝" data-cat="근력">#웨이트 트레이닝</button>
             </div>
 
             <div class="form-inputs-row">

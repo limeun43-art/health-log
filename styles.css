@@ -1746,20 +1746,33 @@ body {
 }
 
 .meal-food-item {
-  background: #F9FAFC;
-  border: 1px solid #EEF2F7;
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
+  background: #FFFFFF;
+  border: 2px solid #EAEFF5;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
   transition: var(--transition-fast);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.015);
 }
 
 .meal-food-item:hover {
-  background: #FFF7F9;
+  background: #FFF5F7;
   border-color: #FFDEE6;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(255, 101, 132, 0.06);
+}
+
+.meal-food-item.exercise-item {
+  border-color: #FFE6DB;
+}
+
+.meal-food-item.exercise-item:hover {
+  background: #FFF8F5;
+  border-color: #FFD2C0;
+  box-shadow: 0 6px 14px rgba(255, 121, 63, 0.06);
 }
 
 .meal-food-info {
@@ -2661,3 +2674,114 @@ input[name="exCategory"]:checked + .cat-chip {
     font-size: 0.88rem;
   }
 }
+
+/* ==========================================
+   Food & Exercise Search Autocomplete & Recommended Tags Styles
+   ========================================== */
+.search-input-group {
+  position: relative;
+}
+
+.search-results-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #FFFFFF;
+  border: 2px solid #FFE0E9;
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: 0 10px 20px rgba(255, 101, 132, 0.08);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+/* Orange border theme for exercise search */
+#exercise-form .search-results-dropdown {
+  border-color: #FFE0D0;
+}
+
+.search-result-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  transition: background 0.15s ease;
+  border-bottom: 1px solid #FFF5F7;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: #FFF5F7;
+}
+
+/* Orange hover for exercise search */
+#exercise-form .search-result-item:hover {
+  background: #FFF5EE;
+}
+
+.search-result-item .item-name {
+  font-weight: 600;
+}
+
+.search-result-item .item-kcal {
+  font-family: var(--font-num);
+  font-weight: bold;
+  color: var(--primary-pink);
+  font-size: 0.85rem;
+}
+
+#exercise-form .search-result-item .item-kcal {
+  color: #FF7043;
+}
+
+.search-results-dropdown.hidden {
+  display: none;
+}
+
+.recommended-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.rec-tag-btn {
+  background: #FFF5F7;
+  border: 1px solid #FFCCD8;
+  color: var(--primary-pink);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rec-tag-btn:hover {
+  background: var(--primary-pink);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Orange theme tags for exercise search */
+#exercise-form .rec-tag-btn {
+  background: #FFF8F5;
+  border: 1px solid #FFD3C0;
+  color: #FF7043;
+}
+
+#exercise-form .rec-tag-btn:hover {
+  background: #FF7043;
+  color: white;
+}
+

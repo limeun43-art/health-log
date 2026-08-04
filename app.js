@@ -84,6 +84,73 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
+  const FOOD_SEARCH_DATABASE = [
+    { name: '삶은 계란', cal: 80, display: '삶은 계란 (80kcal / 1개)' },
+    { name: '골드키위', cal: 55, display: '골드키위 (55kcal / 1개)' },
+    { name: '바나나', cal: 90, display: '바나나 (90kcal / 1개)' },
+    { name: '복숭아', cal: 50, display: '복숭아 (50kcal / 1개)' },
+    { name: '오이', cal: 15, display: '오이 (15kcal / 1개)' },
+    { name: '햇반', cal: 310, display: '햇반 (310kcal / 1개)' },
+    { name: '식빵', cal: 120, display: '식빵 (120kcal / 1장)' },
+    { name: '사과', cal: 95, display: '사과 (95kcal / 1개)' },
+    { name: '고구마', cal: 130, display: '고구마 (130kcal / 1개)' },
+    { name: '우유', cal: 130, display: '우유 (130kcal / 1잔)' },
+    { name: '닭가슴살', cal: 120, display: '닭가슴살 (120kcal / 100g)' },
+    { name: '닭가슴살 샐러드', cal: 250, display: '닭가슴살 샐러드 (250kcal)' },
+    { name: '달걀프라이', cal: 120, display: '달걀프라이 (120kcal / 1개)' },
+    { name: '방울토마토', cal: 16, display: '방울토마토 (16kcal / 100g)' },
+    { name: '흰쌀밥', cal: 300, display: '흰쌀밥 (300kcal / 1공기)' },
+    { name: '잡곡밥', cal: 280, display: '잡곡밥 (280kcal / 1공기)' },
+    { name: '삼각김밥', cal: 200, display: '삼각김밥 (200kcal / 1개)' },
+    { name: '신라면', cal: 500, display: '신라면 (500kcal / 1봉지)' },
+    { name: '아메리카노', cal: 10, display: '아메리카노 (10kcal / 1잔)' },
+    { name: '카페라떼', cal: 150, display: '카페라떼 (150kcal / 1잔)' },
+    { name: '그릭요거트', cal: 90, display: '그릭요거트 (90kcal / 100g)' },
+    { name: '아몬드', cal: 60, display: '아몬드 (60kcal / 10알)' },
+    { name: '두부', cal: 80, display: '두부 (80kcal / 100g)' },
+    { name: '단호박', cal: 70, display: '단호박 (70kcal / 100g)' },
+    { name: '소고기 등심', cal: 240, display: '소고기 등심 (240kcal / 100g)' },
+    { name: '돼지고기 삼겹살', cal: 330, display: '돼지고기 삼겹살 (330kcal / 100g)' },
+    { name: '연어 구이', cal: 170, display: '연어 구이 (170kcal / 100g)' },
+    { name: '참치캔', cal: 120, display: '참치캔 (120kcal / 1캔)' },
+    { name: '배추김치', cal: 15, display: '배추김치 (15kcal / 100g)' },
+    { name: '미역국', cal: 80, display: '미역국 (80kcal / 1대접)' },
+    { name: '된장찌개', cal: 120, display: '된장찌개 (120kcal / 1대접)' },
+    { name: '김치찌개', cal: 150, display: '김치찌개 (150kcal / 1대접)' },
+    { name: '제육볶음', cal: 300, display: '제육볶음 (300kcal / 100g)' },
+    { name: '피자', cal: 250, display: '피자 (250kcal / 1조각)' },
+    { name: '치킨', cal: 290, display: '치킨 (290kcal / 1조각)' },
+    { name: '떡볶이', cal: 350, display: '떡볶이 (350kcal / 1인분)' },
+    { name: '짜장면', cal: 700, display: '짜장면 (700kcal / 1그릇)' },
+    { name: '짬뽕', cal: 520, display: '짬뽕 (520kcal / 1그릇)' },
+    { name: '돈카츠', cal: 600, display: '돈카츠 (600kcal / 1인분)' },
+    { name: '우동', cal: 350, display: '우동 (350kcal / 1그릇)' },
+    { name: '라멘', cal: 500, display: '라멘 (500kcal / 1그릇)' }
+  ];
+
+  const EXERCISE_SEARCH_DATABASE = [
+    { name: '런닝', rate: 8.0, cat: '유산소', display: '🏃 런닝 (분당 8.0kcal)' },
+    { name: '필라테스', rate: 4.5, cat: '스트레칭', display: '🧘 필라테스 (분당 4.5kcal)' },
+    { name: '요가', rate: 3.0, cat: '스트레칭', display: '🧘 요가 (분당 3.0kcal)' },
+    { name: '자전거', rate: 6.0, cat: '유산소', display: '🚴 자전거 (분당 6.0kcal)' },
+    { name: '수영', rate: 8.0, cat: '유산소', display: '🏊 수영 (분당 8.0kcal)' },
+    { name: '웨이트 트레이닝', rate: 5.0, cat: '근력', display: '🏋️‍♂️ 웨이트 트레이닝 (분당 5.0kcal)' },
+    { name: '걷기', rate: 3.5, cat: '유산소', display: '🚶 걷기 (분당 3.5kcal)' },
+    { name: '스쿼트', rate: 6.0, cat: '근력', display: '🦵 스쿼트 (분당 6.0kcal)' },
+    { name: '계단 오르기', rate: 7.0, cat: '유산소', display: '🪜 계단 오르기 (분당 7.0kcal)' },
+    { name: '줄넘기', rate: 10.0, cat: '유산소', display: '🪢 줄넘기 (분당 10.0kcal)' },
+    { name: '플랭크', rate: 4.0, cat: '근력', display: '🧘 플랭크 (분당 4.0kcal)' },
+    { name: '스트레칭', rate: 2.5, cat: '스트레칭', display: '🧘 스트레칭 (분당 2.5kcal)' },
+    { name: '조깅', rate: 7.0, cat: '유산소', display: '🏃 조깅 (분당 7.0kcal)' },
+    { name: '배드민턴', rate: 5.0, cat: '유산소', display: '🏸 배드민턴 (분당 5.0kcal)' },
+    { name: '등산', rate: 7.5, cat: '유산소', display: '⛰️ 등산 (분당 7.5kcal)' },
+    { name: '댄스', rate: 5.5, cat: '유산소', display: '💃 댄스 (분당 5.5kcal)' },
+    { name: '줌바', rate: 8.0, cat: '유산소', display: '🕺 줌바 (분당 8.0kcal)' },
+    { name: '사이클링', rate: 6.5, cat: '유산소', display: '🚴 사이클링 (분당 6.5kcal)' },
+    { name: '턱걸이', rate: 7.5, cat: '근력', display: '💪 턱걸이 (분당 7.5kcal)' },
+    { name: '푸쉬업', rate: 5.5, cat: '근력', display: '💪 푸쉬업 (분당 5.5kcal)' }
+  ];
+
   let currentDate = getTodayDateString();
   let searchQuery = '';
   let activeCuisineCategory = '한식';
@@ -544,8 +611,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // === EXERCISE ENGINE & CALCULATOR ===
   function calcExerciseCalories(category, weight, durationMin) {
     const mins = parseFloat(durationMin) || 15;
-    let rate = 3.3;
+    const name = exNameInput ? exNameInput.value.trim().toLowerCase() : '';
 
+    // Check if name matches any entry in our search database
+    const matchedEx = EXERCISE_SEARCH_DATABASE.find(item => 
+      name.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(name)
+    );
+    if (matchedEx && name !== '') {
+      return Math.round(matchedEx.rate * mins);
+    }
+
+    let rate = 3.3;
     if (category === '근력') {
       if (weight === '0.5kg') rate = 2.33; // 15분 -> ~35kcal
       else if (weight === '1kg') rate = 3.33; // 15분 -> ~50kcal
@@ -579,6 +655,135 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculatedKcal = calcExerciseCalories(cat, weight, duration);
     if (exCalorieInput) exCalorieInput.value = calculatedKcal;
   }
+
+  // === AUTOCOMPLETE & SEARCH ENGINE ===
+  function setupAutocomplete() {
+    const foodSearchDropdown = document.getElementById('food-search-dropdown');
+    const exSearchDropdown = document.getElementById('ex-search-dropdown');
+
+    // 1. Food Autocomplete
+    if (foodNameInput && foodSearchDropdown) {
+      foodNameInput.addEventListener('input', () => {
+        const val = foodNameInput.value.trim().toLowerCase();
+        if (!val) {
+          foodSearchDropdown.innerHTML = '';
+          foodSearchDropdown.classList.add('hidden');
+          return;
+        }
+
+        const matches = FOOD_SEARCH_DATABASE.filter(item => 
+          item.name.toLowerCase().includes(val)
+        );
+
+        if (matches.length === 0) {
+          foodSearchDropdown.innerHTML = '';
+          foodSearchDropdown.classList.add('hidden');
+          return;
+        }
+
+        foodSearchDropdown.innerHTML = matches.map(item => `
+          <div class="search-result-item" data-name="${item.name}" data-cal="${item.cal}">
+            <span class="item-name">${item.name}</span>
+            <span class="item-kcal">${item.cal} kcal</span>
+          </div>
+        `).join('');
+
+        foodSearchDropdown.classList.remove('hidden');
+
+        // Click handler for items
+        foodSearchDropdown.querySelectorAll('.search-result-item').forEach(el => {
+          el.addEventListener('click', () => {
+            foodNameInput.value = el.dataset.name;
+            if (foodCalorieInput) foodCalorieInput.value = el.dataset.cal;
+            foodSearchDropdown.innerHTML = '';
+            foodSearchDropdown.classList.add('hidden');
+          });
+        });
+      });
+
+      // Close dropdown on click outside
+      document.addEventListener('click', (e) => {
+        if (!foodNameInput.contains(e.target) && !foodSearchDropdown.contains(e.target)) {
+          foodSearchDropdown.classList.add('hidden');
+        }
+      });
+    }
+
+    // 2. Exercise Autocomplete
+    if (exNameInput && exSearchDropdown) {
+      exNameInput.addEventListener('input', () => {
+        const val = exNameInput.value.trim().toLowerCase();
+        if (!val) {
+          exSearchDropdown.innerHTML = '';
+          exSearchDropdown.classList.add('hidden');
+          return;
+        }
+
+        const matches = EXERCISE_SEARCH_DATABASE.filter(item => 
+          item.name.toLowerCase().includes(val)
+        );
+
+        if (matches.length === 0) {
+          exSearchDropdown.innerHTML = '';
+          exSearchDropdown.classList.add('hidden');
+          return;
+        }
+
+        exSearchDropdown.innerHTML = matches.map(item => `
+          <div class="search-result-item" data-name="${item.name}" data-rate="${item.rate}" data-cat="${item.cat}">
+            <span class="item-name">${item.name}</span>
+            <span class="item-kcal">${item.rate} kcal/분</span>
+          </div>
+        `).join('');
+
+        exSearchDropdown.classList.remove('hidden');
+
+        // Click handler for items
+        exSearchDropdown.querySelectorAll('.search-result-item').forEach(el => {
+          el.addEventListener('click', () => {
+            exNameInput.value = el.dataset.name;
+            
+            // Set category radio
+            const cat = el.dataset.cat;
+            const catRadio = document.querySelector(`input[name="exCategory"][value="${cat}"]`);
+            if (catRadio) catRadio.checked = true;
+
+            exSearchDropdown.innerHTML = '';
+            exSearchDropdown.classList.add('hidden');
+
+            autoUpdateCalorieCalculation();
+          });
+        });
+      });
+
+      // Close dropdown on click outside
+      document.addEventListener('click', (e) => {
+        if (!exNameInput.contains(e.target) && !exSearchDropdown.contains(e.target)) {
+          exSearchDropdown.classList.add('hidden');
+        }
+      });
+    }
+
+    // 3. Recommended Tag Clicks
+    document.querySelectorAll('.recommended-tags .rec-tag-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name;
+        // Check if inside food modal or exercise modal
+        const isFoodModal = btn.closest('#food-input-modal');
+        if (isFoodModal) {
+          if (foodNameInput) foodNameInput.value = name;
+          if (foodCalorieInput) foodCalorieInput.value = btn.dataset.cal;
+        } else {
+          if (exNameInput) exNameInput.value = name;
+          const cat = btn.dataset.cat;
+          const catRadio = document.querySelector(`input[name="exCategory"][value="${cat}"]`);
+          if (catRadio) catRadio.checked = true;
+          autoUpdateCalorieCalculation();
+        }
+      });
+    });
+  }
+
 
   function openExerciseModal(timeOfDay) {
     activeTargetExTime = timeOfDay || '아침';
@@ -1100,6 +1305,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === EVENT LISTENERS ATTACHMENT ===
   function attachEventListeners() {
+    setupAutocomplete();
+
     // Date Controls
     if (prevDateBtn) prevDateBtn.addEventListener('click', () => changeDateByDays(-1));
     if (nextDateBtn) nextDateBtn.addEventListener('click', () => changeDateByDays(1));
@@ -1243,6 +1450,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    if (exNameInput) exNameInput.addEventListener('input', autoUpdateCalorieCalculation);
     if (exDurationInput) exDurationInput.addEventListener('input', autoUpdateCalorieCalculation);
     document.querySelectorAll('input[name="exCategory"]').forEach(r => r.addEventListener('change', autoUpdateCalorieCalculation));
     document.querySelectorAll('input[name="exWeight"]').forEach(r => r.addEventListener('change', autoUpdateCalorieCalculation));
