@@ -1,3 +1,9 @@
 .vercel
 node_modules
 process_kitty_couple.js
+.env
+.env.*
+dist
+build
+out
+.cache

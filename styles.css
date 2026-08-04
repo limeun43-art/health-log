@@ -260,6 +260,109 @@ body {
   width: 100%;
 }
 
+/* Side Giraffe Decorations */
+.giraffe-decor {
+  position: fixed;
+  bottom: 0px;
+  z-index: 1;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.giraffe-decor img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.05));
+}
+
+.giraffe-left {
+  left: 2%;
+  width: 250px;
+  height: 583px;
+  transform-origin: bottom left;
+  animation: swingLeft 7s ease-in-out infinite;
+}
+
+.giraffe-right {
+  right: 2%;
+  width: 250px;
+  height: 523px;
+  transform-origin: bottom right;
+  animation: swingRight 7.5s ease-in-out infinite;
+}
+
+/* Temporary eye placement helper */
+.eye-blink {
+  position: absolute;
+  border: 4px solid green;
+  background: rgba(0, 255, 0, 0.6);
+  z-index: 100;
+  pointer-events: none;
+}
+
+.giraffe-left .eye-l {
+  top: 15.5%;
+  left: 47.2%;
+  width: 1.5%;
+  height: 1%;
+}
+.giraffe-left .eye-r {
+  top: 15.5%;
+  left: 54.8%;
+  width: 1.5%;
+  height: 1%;
+}
+
+.giraffe-right .eye-l {
+  top: 16.0%;
+  left: 46.8%;
+  width: 1.5%;
+  height: 1%;
+}
+.giraffe-right .eye-r {
+  top: 16.0%;
+  left: 54.5%;
+  width: 1.5%;
+  height: 1%;
+}
+
+@keyframes swingLeft {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes swingRight {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .giraffe-left {
+    width: 180px;
+    height: 420px;
+  }
+  .giraffe-right {
+    width: 180px;
+    height: 376px;
+  }
+}
+
+@media (max-width: 950px) {
+  .giraffe-decor {
+    display: none;
+  }
+}
+
 .card {
   background: #FFFFFF;
   border: 1px solid var(--card-border);

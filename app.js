@@ -14,7 +14,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const STORAGE_KEY = 'health_log_v1';
   const TARGET_WATER_GLASSES = 8; // Target goal: 8 glasses (2.0 Liters)
   const GLASS_VOLUME_LITERS = 0.25; // 1 glass = 250ml
-  const TARGET_CALORIES = 2000; // Target goal: 2000 kcal
+  let targetCalories = loadTargetCalories();
+
+  function loadTargetCalories() {
+    try {
+      const saved = localStorage.getItem('target_calories_v1');
+      return saved ? parseInt(saved) : 2000;
+    } catch (e) {
+      return 2000;
+    }
+  }
+
+  function saveTargetCalories(kcal) {
+    try {
+      targetCalories = kcal;
+      localStorage.setItem('target_calories_v1', kcal);
+      renderUI();
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   // REST API Base URL
   const API_BASE = window.location.origin.includes('8080')
@@ -437,9 +456,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const totalCal = foods.reduce((sum, item) => sum + (parseInt(item.calories) || 0), 0);
     totalCaloriesEl.textContent = totalCal.toLocaleString();
-    if (targetCaloriesText) targetCaloriesText.textContent = TARGET_CALORIES.toLocaleString();
+    if (targetCaloriesText) targetCaloriesText.textContent = targetCalories.toLocaleString();
 
-    const calPercent = Math.round((totalCal / TARGET_CALORIES) * 100);
+    const calPercent = Math.round((totalCal / targetCalories) * 100);
     if (calPercentBadge) calPercentBadge.textContent = `${calPercent}%`;
     if (calorieProgressFill) calorieProgressFill.style.width = `${Math.min(calPercent, 100)}%`;
 
@@ -704,6 +723,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === VIEW MODE SEGMENTED TABS & CALENDAR ===
+  function changeMonth(offsetMonths) {
+    const parts = currentDate.split('-');
+    const yearInput = parseInt(parts[0]);
+    const monthInput = parseInt(parts[1]) - 1;
+    const dayInput = parseInt(parts[2]);
+
+    const dateObj = new Date(yearInput, monthInput, 1);
+    dateObj.setMonth(dateObj.getMonth() + offsetMonths);
+
+    const targetYear = dateObj.getFullYear();
+    const targetMonth = dateObj.getMonth();
+
+    const maxDaysInTargetMonth = new Date(targetYear, targetMonth + 1, 0).getDate();
+    const targetDay = Math.min(dayInput, maxDaysInTargetMonth);
+
+    const yearStr = targetYear;
+    const monthStr = String(targetMonth + 1).padStart(2, '0');
+    const dayStr = String(targetDay).padStart(2, '0');
+
+    currentDate = `${yearStr}-${monthStr}-${dayStr}`;
+    if (datePicker) datePicker.value = currentDate;
+    updateDateDisplay();
+    renderUI();
+  }
+
   function switchViewMode(mode) {
     activeViewMode = mode;
     viewSegTabs.forEach(tab => {
@@ -836,6 +880,62 @@ document.addEventListener('DOMContentLoaded', () => {
     switchViewMode('daily');
   };
 
+  // === GOAL CALORIES SETTING MODAL ===
+  const goalModal = document.getElementById('goal-modal');
+  const openGoalBtn = document.getElementById('open-goal-btn');
+  const calorieGoalTrigger = document.getElementById('calorie-goal-trigger');
+  const closeGoalModalBtn = document.getElementById('close-goal-modal-btn');
+  const goalForm = document.getElementById('goal-form');
+  const goalHeightInput = document.getElementById('goal-height-input');
+  const goalWeightInput = document.getElementById('goal-weight-input');
+  const goalAgeInput = document.getElementById('goal-age-input');
+  const goalActivitySelect = document.getElementById('goal-activity-select');
+  const calculatedCaloriesText = document.getElementById('calculated-calories-text');
+
+  function openGoalModal() {
+    try {
+      const gender = localStorage.getItem('goal_gender') || 'female';
+      const height = localStorage.getItem('goal_height') || '160';
+      const weight = localStorage.getItem('goal_weight') || '55';
+      const age = localStorage.getItem('goal_age') || '25';
+      const activity = localStorage.getItem('goal_activity') || '1.375';
+
+      const genderRadio = document.querySelector(`input[name="goalGender"][value="${gender}"]`);
+      if (genderRadio) genderRadio.checked = true;
+      if (goalHeightInput) goalHeightInput.value = height;
+      if (goalWeightInput) goalWeightInput.value = weight;
+      if (goalAgeInput) goalAgeInput.value = age;
+      if (goalActivitySelect) goalActivitySelect.value = activity;
+    } catch(e) {}
+
+    updateCalculatedCalories();
+    if (goalModal) goalModal.classList.remove('hidden');
+  }
+
+  function closeGoalModal() {
+    if (goalModal) goalModal.classList.add('hidden');
+  }
+
+  function updateCalculatedCalories() {
+    const genderEl = document.querySelector('input[name="goalGender"]:checked');
+    const gender = genderEl ? genderEl.value : 'female';
+    const height = parseFloat(goalHeightInput.value) || 160;
+    const weight = parseFloat(goalWeightInput.value) || 55;
+    const age = parseInt(goalAgeInput.value) || 25;
+    const activity = parseFloat(goalActivitySelect.value) || 1.375;
+
+    let bmr = 0;
+    if (gender === 'male') {
+      bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+    } else {
+      bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+    }
+
+    const tdee = Math.round(bmr * activity);
+    if (calculatedCaloriesText) calculatedCaloriesText.textContent = tdee.toLocaleString();
+    return tdee;
+  }
+
   function escapeHTML(str) {
     return str.replace(/[&<>'"]/g, 
       tag => ({
@@ -938,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', () => {
         col.className = 'trend-col-item';
 
         const waterHeightPct = Math.min(100, Math.round((item.water / TARGET_WATER_GLASSES) * 100));
-        const calHeightPct = Math.min(100, Math.round((item.calories / TARGET_CALORIES) * 100));
+        const calHeightPct = Math.min(100, Math.round((item.calories / targetCalories) * 100));
 
         col.innerHTML = `
           <div class="trend-bars-pair">
@@ -1181,6 +1281,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    const prevMonthBtn = document.getElementById('prev-month-btn');
+    const nextMonthBtn = document.getElementById('next-month-btn');
+    if (prevMonthBtn) prevMonthBtn.addEventListener('click', () => changeMonth(-1));
+    if (nextMonthBtn) nextMonthBtn.addEventListener('click', () => changeMonth(1));
+
     // Triple Stamp Modal Close
     if (closeStampModalBtn) closeStampModalBtn.addEventListener('click', () => tripleStampModal.classList.add('hidden'));
     if (stampModalConfirmBtn) {
@@ -1212,7 +1317,44 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === statsModal) statsModal.classList.add('hidden');
       });
     }
+    // Goal Setting Modal Listeners
+    if (openGoalBtn) openGoalBtn.addEventListener('click', openGoalModal);
+    if (calorieGoalTrigger) calorieGoalTrigger.addEventListener('click', openGoalModal);
+    if (closeGoalModalBtn) closeGoalModalBtn.addEventListener('click', closeGoalModal);
+    if (goalModal) {
+      goalModal.addEventListener('click', (e) => {
+        if (e.target === goalModal) closeGoalModal();
+      });
+    }
 
+    // Dynamic BMR & TDEE calculation updates on input change
+    if (goalHeightInput) goalHeightInput.addEventListener('input', updateCalculatedCalories);
+    if (goalWeightInput) goalWeightInput.addEventListener('input', updateCalculatedCalories);
+    if (goalAgeInput) goalAgeInput.addEventListener('input', updateCalculatedCalories);
+    if (goalActivitySelect) goalActivitySelect.addEventListener('change', updateCalculatedCalories);
+    document.querySelectorAll('input[name="goalGender"]').forEach(r => {
+      r.addEventListener('change', updateCalculatedCalories);
+    });
+
+    if (goalForm) {
+      goalForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const calculatedKcal = updateCalculatedCalories();
+        saveTargetCalories(calculatedKcal);
+
+        try {
+          const genderEl = document.querySelector('input[name="goalGender"]:checked');
+          if (genderEl) localStorage.setItem('goal_gender', genderEl.value);
+          localStorage.setItem('goal_height', goalHeightInput.value);
+          localStorage.setItem('goal_weight', goalWeightInput.value);
+          localStorage.setItem('goal_age', goalAgeInput.value);
+          localStorage.setItem('goal_activity', goalActivitySelect.value);
+        } catch(err) {}
+
+        closeGoalModal();
+        alert(`일일 칼로리 목표가 ${calculatedKcal.toLocaleString()} kcal로 설정되었습니다! 🎯`);
+      });
+    }
     // Reset Data Button Trigger
     const resetDataBtn = document.getElementById('reset-data-btn');
     if (resetDataBtn) {
@@ -1231,7 +1373,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // INITIALIZATION
   function init() {
     if (waterTargetCountEl) waterTargetCountEl.textContent = TARGET_WATER_GLASSES;
-    if (targetCaloriesText) targetCaloriesText.textContent = TARGET_CALORIES.toLocaleString();
+    if (targetCaloriesText) targetCaloriesText.textContent = targetCalories.toLocaleString();
     if (datePicker) datePicker.value = currentDate;
     updateDateDisplay();
     render8CupsGrid();

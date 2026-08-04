@@ -65,16 +65,28 @@
 </head>
 <body>
 
+  <!-- Side Giraffe Decorations -->
+  <div class="giraffe-decor giraffe-left">
+    <img src="giraffe_female_real_1785475134743.png" alt="여자 기린">
+    <div class="eye-blink eye-l"></div>
+    <div class="eye-blink eye-r"></div>
+  </div>
+  <div class="giraffe-decor giraffe-right">
+    <img src="giraffe_male_real_1785475145420.png" alt="남자 기린">
+    <div class="eye-blink eye-l"></div>
+    <div class="eye-blink eye-r"></div>
+  </div>
+
   <div class="app-container">
     <!-- Header -->
     <header class="app-header">
       <div class="logo-area">
-        <span class="logo-icon">🎀</span>
+        <span class="logo-icon">🦒</span>
         <div class="logo-text">
           <h1>얌얌 & 퐁당 & 오운완</h1>
-          <p class="subtitle">헬로키티 커플 🎀 촉촉한 물 & 건강 헬스 로그 ✨</p>
+          <p class="subtitle">기린 부부와 함께하는 촉촉한 물 & 건강 헬스 로그 🦒💕</p>
         </div>
-        <span class="logo-icon">🎀</span>
+        <span class="logo-icon">🦒</span>
       </div>
 
       <!-- Date Navigator & Header Stats Action -->
@@ -96,6 +108,10 @@
           <button type="button" class="view-seg-tab" data-view="weekly">주간</button>
           <button type="button" class="view-seg-tab" data-view="monthly">월간 달력</button>
         </div>
+
+        <button id="open-goal-btn" class="stats-header-btn goal-header-btn">
+          <i class="fa-solid fa-bullseye"></i> 칼로리 목표 설정
+        </button>
 
         <button id="open-stats-btn" class="stats-header-btn">
           <i class="fa-solid fa-chart-pie"></i> 통계 & 히스토리
@@ -236,8 +252,8 @@
               </div>
             </div>
             <div class="calorie-summary-wrapper">
-              <div class="calorie-total-badge">
-                총 <span id="total-calories" class="highlight-num">0</span> / <span id="target-calories-text">2,000</span> kcal
+              <div class="calorie-total-badge" id="calorie-goal-trigger" style="cursor: pointer;" title="칼로리 목표 설정하기">
+                총 <span id="total-calories" class="highlight-num">0</span> / <span id="target-calories-text">2,000</span> kcal <i class="fa-solid fa-gear" style="font-size:0.85rem; margin-left:3px; color:var(--text-sub);"></i>
                 <span id="cal-percent-badge" class="cal-percent-badge">0%</span>
               </div>
             </div>
@@ -485,13 +501,17 @@
     <!-- MONTHLY CALENDAR VIEW CONTAINER (Hidden by default) -->
     <div id="monthly-view-container" class="view-container hidden">
       <div class="card monthly-card">
-        <div class="card-header">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
           <div class="card-title">
             <span class="badge-icon stamp-bg"><i class="fa-solid fa-calendar-days"></i></span>
             <div>
               <h2 id="calendar-month-title">월간 달력 및 '참 잘했어요 💮' 스탬프</h2>
               <p class="card-sub">물(8잔)+식단+운동 삼총사 목표 완수 시 칭찬 스탬프가 찍혀요!</p>
             </div>
+          </div>
+          <div class="month-nav-buttons" style="display: flex; gap: 8px; align-items: center;">
+            <button id="prev-month-btn" class="nav-arrow-btn" style="width:32px; height:32px; font-size:0.85rem;" title="이전 달"><i class="fa-solid fa-chevron-left"></i></button>
+            <button id="next-month-btn" class="nav-arrow-btn" style="width:32px; height:32px; font-size:0.85rem;" title="다음 달"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
         </div>
 
@@ -826,6 +846,90 @@
       </div>
     </div>
   </div>
+
+    <!-- GOAL SETTING MODAL -->
+    <div id="goal-modal" class="modal-overlay hidden">
+      <div class="modal-card goal-modal-card">
+        <button id="close-goal-modal-btn" class="modal-close-icon" type="button"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div class="food-modal-header pink-modal-header" style="background: linear-gradient(135deg, #FF758C 0%, #FF7EB3 100%);">
+          <span class="modal-header-icon">🎯</span>
+          <div>
+            <h2 class="modal-title" style="color: #FFF;">권장 칼로리 목표 설정</h2>
+            <p class="modal-subtext" style="color: rgba(255,255,255,0.85); font-size:0.8rem;">신체 정보를 입력하면 일일 권장 칼로리를 자동으로 계산해 드려요!</p>
+          </div>
+        </div>
+
+        <form id="goal-form" class="modal-food-form">
+          <div class="modal-form-body" style="padding-top: 15px;">
+            <!-- Gender Selection -->
+            <div class="input-group">
+              <label><i class="fa-solid fa-venus-mars"></i> 성별</label>
+              <div class="meal-type-selector modal-meal-selector" style="margin-bottom: 0;">
+                <input type="radio" name="goalGender" id="gender-female" value="female" checked>
+                <label for="gender-female" class="meal-chip pink-chip" style="flex: 1; text-align: center;"><span class="chip-icon">🎀</span> 여성</label>
+
+                <input type="radio" name="goalGender" id="gender-male" value="male">
+                <label for="gender-male" class="meal-chip orange-chip" style="flex: 1; text-align: center;"><span class="chip-icon">🎩</span> 남성</label>
+              </div>
+            </div>
+
+            <!-- Height & Weight & Age -->
+            <div class="form-inputs-row" style="display: flex; gap: 10px;">
+              <div class="input-group" style="flex: 1;">
+                <label for="goal-height-input"><i class="fa-solid fa-ruler-vertical"></i> 키 (cm)</label>
+                <div class="input-unit-wrapper">
+                  <input type="number" id="goal-height-input" value="160" min="100" max="250" step="1" required>
+                  <span class="unit">cm</span>
+                </div>
+              </div>
+
+              <div class="input-group" style="flex: 1;">
+                <label for="goal-weight-input"><i class="fa-solid fa-weight-scale"></i> 몸무게 (kg)</label>
+                <div class="input-unit-wrapper">
+                  <input type="number" id="goal-weight-input" value="55" min="30" max="200" step="0.1" required>
+                  <span class="unit">kg</span>
+                </div>
+              </div>
+
+              <div class="input-group" style="flex: 1;">
+                <label for="goal-age-input"><i class="fa-solid fa-cake-candles"></i> 나이 (세)</label>
+                <div class="input-unit-wrapper">
+                  <input type="number" id="goal-age-input" value="25" min="1" max="120" step="1" required>
+                  <span class="unit">세</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity Level Selection -->
+            <div class="input-group">
+              <label for="goal-activity-select"><i class="fa-solid fa-person-running"></i> 평소 활동량</label>
+              <select id="goal-activity-select" class="custom-select" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #E2E8F0; font-family: var(--font-body); font-size: 0.95rem;">
+                <option value="1.2">거의 활동 없음 (주로 앉아서 생활)</option>
+                <option value="1.375" selected>가벼운 활동 (주 1~3일 가벼운 운동)</option>
+                <option value="1.55">보통 활동 (주 3~5일 적당한 운동)</option>
+                <option value="1.725">적극적인 활동 (주 6~7일 격렬한 운동)</option>
+              </select>
+            </div>
+
+            <!-- Calculated Calorie Output Box -->
+            <div class="calculation-result-box" style="margin-top: 15px; padding: 15px; background: #FFF0F5; border: 1.5px dashed #FFB6C1; border-radius: 12px; text-align: center;">
+              <span style="font-size: 0.85rem; color: #E05A70; font-weight: 600;">✨ 나만의 권장 일일 칼로리 ✨</span>
+              <div style="font-family: var(--font-num); font-size: 1.8rem; font-weight: 700; color: #D63031; margin-top: 5px;">
+                <span id="calculated-calories-text">2,000</span> <span style="font-size: 1.2rem; font-weight: 600; font-family: var(--font-body);">kcal</span>
+              </div>
+              <p style="font-size: 0.8rem; color: #64748B; margin-top: 5px;">기초 대사량(BMR)과 평소 활동량을 바탕으로 산출되었습니다.</p>
+            </div>
+          </div>
+
+          <div class="modal-action" style="padding-top: 10px;">
+            <button type="submit" class="cute-primary-btn full-width-btn" style="background: linear-gradient(135deg, #FF758C 0%, #FF7EB3 100%); border: none;">
+              <i class="fa-solid fa-check"></i> 이 목표 칼로리로 설정하기
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
   <script src="app.js"></script>
 </body>
