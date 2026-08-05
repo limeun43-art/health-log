@@ -836,10 +836,17 @@
             </div>
           </div>
           <div class="stat-summary-card pink-card">
-            <span class="card-stat-icon">🔥</span>
+            <span class="card-stat-icon">🍲</span>
             <div>
               <span class="card-stat-val" id="stat-avg-cal">0 kcal</span>
-              <span class="card-stat-label">하루 평균 칼로리</span>
+              <span class="card-stat-label">하루 평균 식단</span>
+            </div>
+          </div>
+          <div class="stat-summary-card orange-card" style="background: #FFF7ED; border: 1.5px solid #FFEDD5; color: #C2410C;">
+            <span class="card-stat-icon" style="background: #FFEDD5; color: #EA580C;">💪</span>
+            <div>
+              <span class="card-stat-val" id="stat-avg-ex-burn" style="color: #EA580C; font-weight: 700; font-family: var(--font-num);">0 kcal</span>
+              <span class="card-stat-label" style="color: #9A3412;">하루 평균 운동 소모</span>
             </div>
           </div>
         </div>
@@ -847,8 +854,12 @@
         <!-- 7 Days Trend Chart Bar Section -->
         <div class="trend-section-box">
           <div class="trend-box-header">
-            <h3><i class="fa-solid fa-chart-column"></i> 최근 7일 섭취 동향 (물 & 칼로리)</h3>
-            <span class="trend-legend"><span class="leg-water">💧 물(잔)</span> <span class="leg-cal">🔥 칼로리(kcal)</span></span>
+            <h3><i class="fa-solid fa-chart-column"></i> 최근 7일 건강 동향 (물, 식단 & 운동)</h3>
+            <span class="trend-legend">
+              <span class="leg-water" style="color: #3B82F6;">💧 물(잔)</span> 
+              <span class="leg-cal" style="color: #EC4899; margin-left: 8px;">🍲 식단(kcal)</span>
+              <span class="leg-ex" style="color: #F97316; margin-left: 8px;">💪 운동(kcal)</span>
+            </span>
           </div>
 
           <div class="trend-bars-container" id="trend-bars-container">

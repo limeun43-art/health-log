@@ -245,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const statTotalDaysEl = document.getElementById('stat-total-days');
   const statAvgWaterEl = document.getElementById('stat-avg-water');
   const statAvgCalEl = document.getElementById('stat-avg-cal');
+  const statAvgExBurnEl = document.getElementById('stat-avg-ex-burn');
   const trendBarsContainer = document.getElementById('trend-bars-container');
   const statTopFoodsEl = document.getElementById('stat-top-foods');
   const statHistoryListEl = document.getElementById('stat-history-list');
@@ -1107,15 +1108,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const waterCount = dayData.water || 0;
       const foodCount = (dayData.foods || []).length;
       const exCount = (dayData.exercises || []).length;
+      const foodCal = (dayData.foods || []).reduce((sum, f) => sum + (parseInt(f.calories) || 0), 0);
+      const exBurn = (dayData.exercises || []).reduce((sum, e) => sum + (parseInt(e.calories) || 0), 0);
 
       const isTripleDone = (waterCount >= TARGET_WATER_GLASSES) && (foodCount > 0) && (exCount > 0);
 
       cell.innerHTML = `
         <span class="cell-day-num">${dayNum}</span>
-        <div class="cell-icons-row">
-          ${waterCount > 0 ? `<span title="물 ${waterCount}잔">💧${waterCount}</span>` : ''}
-          ${foodCount > 0 ? `<span title="식단 ${foodCount}개">🍲${foodCount}</span>` : ''}
-          ${exCount > 0 ? `<span title="운동 ${exCount}개">💪${exCount}</span>` : ''}
+        <div class="cell-icons-row" style="display: flex; flex-direction: column; gap: 2px; font-size: 0.65rem; align-items: stretch; line-height: 1.1; width: 100%;">
+          ${waterCount > 0 ? `<span style="background: #E0F2FE; color: #0369A1; padding: 1px 3px; border-radius: 4px; display: block; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="물 ${waterCount}잔">💧${waterCount}잔</span>` : ''}
+          ${foodCal > 0 ? `<span style="background: #FCE7F3; color: #BE185D; padding: 1px 3px; border-radius: 4px; display: block; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="식단 ${foodCal}kcal">🍲${foodCal} kcal</span>` : ''}
+          ${exBurn > 0 ? `<span style="background: #FFEDD5; color: #C2410C; padding: 1px 3px; border-radius: 4px; display: block; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="운동 ${exBurn}kcal">💪${exBurn} kcal</span>` : ''}
         </div>
         <div class="cell-stamp-wrapper">
           ${isTripleDone ? `<span class="calendar-stamp-badge" title="삼총사 달성 스탬프!">💮</span>` : ''}
@@ -1268,11 +1271,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const dates = Object.keys(appData).sort();
     const totalDays = dates.length;
     if (totalDays === 0) {
-      return { totalDays: 0, avgWater: 0, avgCalories: 0, topFoods: [], recent7Days: [] };
+      return { totalDays: 0, avgWater: 0, avgCalories: 0, avgExerciseBurn: 0, topFoods: [], recent7Days: [] };
     }
 
     let totalWater = 0;
     let totalCal = 0;
+    let totalExBurn = 0;
     const foodMap = {};
 
     dates.forEach(d => {
@@ -1282,6 +1286,9 @@ document.addEventListener('DOMContentLoaded', () => {
         totalCal += (parseInt(f.calories) || 0);
         const name = (f.name || '').trim();
         if (name) foodMap[name] = (foodMap[name] || 0) + 1;
+      });
+      (day.exercises || []).forEach(ex => {
+        totalExBurn += (parseInt(ex.calories) || 0);
       });
     });
 
@@ -1299,15 +1306,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const dayData = appData[dateStr] || { water: 0, foods: [], exercises: [] };
       const water = dayData.water || 0;
       const calories = (dayData.foods || []).reduce((sum, f) => sum + (parseInt(f.calories) || 0), 0);
+      const exBurn = (dayData.exercises || []).reduce((sum, e) => sum + (parseInt(e.calories) || 0), 0);
       const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
       const label = `${dateObj.getMonth() + 1}/${dateObj.getDate()} (${weekdays[dateObj.getDay()]})`;
-      recent7Days.push({ dateStr, label, water, calories });
+      recent7Days.push({ dateStr, label, water, calories, exBurn });
     }
 
     return {
       totalDays,
       avgWater: (totalWater / totalDays).toFixed(1),
       avgCalories: Math.round(totalCal / totalDays),
+      avgExerciseBurn: Math.round(totalExBurn / totalDays),
       topFoods,
       recent7Days
     };
@@ -1317,6 +1326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statTotalDaysEl) statTotalDaysEl.textContent = stats.totalDays;
     if (statAvgWaterEl) statAvgWaterEl.textContent = `${stats.avgWater}잔`;
     if (statAvgCalEl) statAvgCalEl.textContent = `${stats.avgCalories.toLocaleString()} kcal`;
+    if (statAvgExBurnEl) statAvgExBurnEl.textContent = `${stats.avgExerciseBurn.toLocaleString()} kcal`;
 
     if (trendBarsContainer && Array.isArray(stats.recent7Days)) {
       trendBarsContainer.innerHTML = '';
@@ -1326,13 +1336,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const waterHeightPct = Math.min(100, Math.round((item.water / TARGET_WATER_GLASSES) * 100));
         const calHeightPct = Math.min(100, Math.round((item.calories / targetCalories) * 100));
+        const exHeightPct = Math.min(100, Math.round((item.exBurn / 500) * 100)); // assume baseline target 500 kcal
 
         col.innerHTML = `
-          <div class="trend-bars-pair">
-            <div class="trend-bar-water" style="height: ${Math.max(4, waterHeightPct)}%;" title="${item.water}잔"></div>
-            <div class="trend-bar-cal" style="height: ${Math.max(4, calHeightPct)}%;" title="${item.calories} kcal"></div>
+          <div class="trend-bars-pair" style="display: flex; align-items: flex-end; gap: 3px; height: 120px;">
+            <div class="trend-bar-water" style="height: ${Math.max(4, waterHeightPct)}%; width: 7px; background: #60A5FA; border-radius: 4px;" title="물: ${item.water}잔"></div>
+            <div class="trend-bar-cal" style="height: ${Math.max(4, calHeightPct)}%; width: 7px; background: #F472B6; border-radius: 4px;" title="식단: ${item.calories} kcal"></div>
+            <div class="trend-bar-ex" style="height: ${Math.max(4, exHeightPct)}%; width: 7px; background: #FB923C; border-radius: 4px;" title="운동 소모: ${item.exBurn} kcal"></div>
           </div>
-          <span class="trend-col-label">${item.label}</span>
+          <span class="trend-col-label" style="font-size:0.72rem; margin-top:4px;">${item.label}</span>
         `;
         trendBarsContainer.appendChild(col);
       });
@@ -1358,6 +1370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dates.forEach(dStr => {
           const day = appData[dStr];
           const cal = (day.foods || []).reduce((sum, f) => sum + (parseInt(f.calories) || 0), 0);
+          const exBurn = (day.exercises || []).reduce((sum, e) => sum + (parseInt(e.calories) || 0), 0);
 
           const li = document.createElement('li');
           const btn = document.createElement('button');
@@ -1365,7 +1378,7 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.className = 'history-date-btn';
           btn.innerHTML = `
             <span>📅 ${formatKoreanDate(dStr)}</span>
-            <span>💧 ${day.water || 0}잔 | 🍲 ${cal} kcal</span>
+            <span>💧 ${day.water || 0}잔 | 🍲 ${cal} kcal | 💪 ${exBurn} kcal</span>
           `;
 
           btn.addEventListener('click', () => {
