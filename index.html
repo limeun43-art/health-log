@@ -83,7 +83,12 @@
       <div class="logo-area">
         <span class="logo-icon">🦒</span>
         <div class="logo-text">
-          <h1>얌얌 & 퐁당 & 오운완</h1>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <h1>얌얌 & 퐁당 & 오운완</h1>
+            <div id="cloud-sync-badge" class="cloud-sync-badge sync-loading" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: bold; background: #E2E8F0; color: #475569;">
+              <i class="fa-solid fa-arrows-rotate fa-spin"></i> <span id="cloud-sync-text">동기화 중...</span>
+            </div>
+          </div>
           <p class="subtitle">기린 부부와 함께하는 촉촉한 물 & 건강 헬스 로그 🦒💕</p>
         </div>
         <span class="logo-icon">🦒</span>
@@ -115,6 +120,10 @@
 
         <button id="open-stats-btn" class="stats-header-btn">
           <i class="fa-solid fa-chart-pie"></i> 통계 & 히스토리
+        </button>
+
+        <button id="open-backup-btn" class="stats-header-btn" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color:#FFF;" title="내 기록 파일로 백업 및 복구">
+          <i class="fa-solid fa-file-shield"></i> 백업/복구
         </button>
 
         <button id="reset-data-btn" class="stats-header-btn reset-header-btn" title="오늘 및 전체 기록 초기화">
@@ -952,6 +961,43 @@
         </form>
       </div>
     </div>
+  </div>
+
+  <!-- BACKUP & RESTORE MODAL -->
+  <div id="backup-modal" class="modal-overlay hidden">
+    <div class="modal-card" style="max-width: 440px;">
+      <button id="close-backup-modal-btn" class="modal-close-icon" type="button"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="stats-modal-header" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color:#FFF; padding: 18px; border-top-left-radius: 20px; border-top-right-radius: 20px; display: flex; align-items: center; gap: 10px; margin: -24px -24px 20px -24px;">
+        <span style="font-size: 1.8rem;">💾</span>
+        <div>
+          <h2 class="modal-title" style="color:#FFF; font-size: 1.3rem;">수동 백업 및 데이터 복구</h2>
+          <p class="modal-subtext" style="color: rgba(255,255,255,0.9); font-size: 0.78rem;">기록을 파일로 내보내어 안전하게 백업하거나 가져옵니다.</p>
+        </div>
+      </div>
+
+      <div class="modal-form-body" style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Export Box -->
+        <div style="background: #F0FDF4; border: 1.5px dashed #A7F3D0; padding: 15px; border-radius: 12px;">
+          <strong style="color: #047857; font-size: 0.9rem; display: block; margin-bottom: 4px;">📂 1. 현재 기록 파일로 내보내기 (백업)</strong>
+          <p style="font-size: 0.8rem; color: #4B5563; margin-bottom: 10px;">지금까지 입력한 모든 물, 식단, 운동 데이터를 백업 파일(.json)로 저장해 둡니다.</p>
+          <button type="button" id="export-backup-btn" class="cute-primary-btn" style="background: #10B981; width: 100%; border: none;">
+            <i class="fa-solid fa-download"></i> 백업 파일 다운로드
+          </button>
+        </div>
+
+        <!-- Import Box -->
+        <div style="background: #FDF4F5; border: 1.5px dashed #FECACA; padding: 15px; border-radius: 12px;">
+          <strong style="color: #DC2626; font-size: 0.9rem; display: block; margin-bottom: 4px;">📥 2. 백업 파일 가져오기 (복구)</strong>
+          <p style="font-size: 0.8rem; color: #4B5563; margin-bottom: 10px;">이전에 다운로드해 둔 백업 파일(.json)을 선택해 기존 기록을 복원합니다. <span style="color: #DC2626; font-weight: bold;">(※ 현재 기록 위에 덮어씌워집니다)</span></p>
+          <input type="file" id="import-file-input" accept=".json" style="display: none;">
+          <button type="button" id="import-backup-btn" class="cute-primary-btn" style="background: #EF4444; width: 100%; border: none;">
+            <i class="fa-solid fa-upload"></i> 백업 파일 불러오기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Firebase App & Firestore compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>

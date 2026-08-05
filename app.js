@@ -283,12 +283,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function syncBackendData() {
+    const syncBadge = document.getElementById('cloud-sync-badge');
+    const syncText = document.getElementById('cloud-sync-text');
+
     // 1. Load locally immediately
     appData = loadDataFromStorage();
     renderUI();
 
     // 2. Fetch from Firebase Firestore to sync newer logs
-    if (!firestoreDb) return;
+    if (!firestoreDb) {
+      if (syncBadge && syncText) {
+        syncBadge.style.background = '#FEF3C7';
+        syncBadge.style.color = '#D97706';
+        syncBadge.innerHTML = '<i class="fa-solid fa-cloud-slash"></i> <span id="cloud-sync-text">오프라인 모드 (로컬 저장)</span>';
+      }
+      return;
+    }
     try {
       const querySnapshot = await firestoreDb.collection('health_logs').get();
       let hasUpdates = false;
@@ -316,8 +326,20 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
         renderUI();
       }
+
+      // Update badge to success
+      if (syncBadge && syncText) {
+        syncBadge.style.background = '#ECFDF5';
+        syncBadge.style.color = '#059669';
+        syncBadge.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> <span id="cloud-sync-text">클라우드 백업 완료</span>';
+      }
     } catch (e) {
       console.log('Firebase sync offline or permissions issue. Using local storage.', e);
+      if (syncBadge && syncText) {
+        syncBadge.style.background = '#FEF3C7';
+        syncBadge.style.color = '#D97706';
+        syncBadge.innerHTML = '<i class="fa-solid fa-cloud-slash"></i> <span id="cloud-sync-text">백업 보류 (로컬 보관 중)</span>';
+      }
     }
   }
 
@@ -329,15 +351,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function saveDataToStorage() {
+    const syncBadge = document.getElementById('cloud-sync-badge');
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
       const dayData = getDayData(currentDate);
 
       // Save to Firebase Firestore
       if (firestoreDb) {
+        if (syncBadge) {
+          syncBadge.style.background = '#EFF6FF';
+          syncBadge.style.color = '#2563EB';
+          syncBadge.innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> <span id="cloud-sync-text">백업 중...</span>';
+        }
         firestoreDb.collection('health_logs').doc(currentDate).set(dayData)
-          .then(() => console.log(`Cloud storage sync success for date: ${currentDate}`))
-          .catch(err => console.error('Cloud storage sync failed:', err));
+          .then(() => {
+            console.log(`Cloud storage sync success for date: ${currentDate}`);
+            if (syncBadge) {
+              syncBadge.style.background = '#ECFDF5';
+              syncBadge.style.color = '#059669';
+              syncBadge.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> <span id="cloud-sync-text">클라우드 백업 완료</span>';
+            }
+          })
+          .catch(err => {
+            console.error('Cloud storage sync failed:', err);
+            if (syncBadge) {
+              syncBadge.style.background = '#FEF3C7';
+              syncBadge.style.color = '#D97706';
+              syncBadge.innerHTML = '<i class="fa-solid fa-cloud-slash"></i> <span id="cloud-sync-text">백업 보류 (로컬 보관 중)</span>';
+            }
+          });
       }
     } catch (e) {
       console.error('Failed to save to storage:', e);
@@ -1217,21 +1259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === STATS MODAL HANDLERS ===
   async function openStatsModal() {
-    let statsData = null;
-    try {
-      const res = await fetch(`${API_BASE}/stats`);
-      if (res.ok) {
-        const json = await res.json();
-        if (json.success) statsData = json.data;
-      }
-    } catch (e) {
-      console.log('Backend stats API offline, compiling local stats');
-    }
-
-    if (!statsData) {
-      statsData = computeLocalStats();
-    }
-
+    const statsData = computeLocalStats();
     renderStatsUI(statsData);
     if (statsModal) statsModal.classList.remove('hidden');
   }
@@ -1579,6 +1607,88 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === statsModal) statsModal.classList.add('hidden');
       });
     }
+
+    // Backup & Restore Modal Trigger
+    const backupModal = document.getElementById('backup-modal');
+    const openBackupBtn = document.getElementById('open-backup-btn');
+    const closeBackupModalBtn = document.getElementById('close-backup-modal-btn');
+    const exportBackupBtn = document.getElementById('export-backup-btn');
+    const importBackupBtn = document.getElementById('import-backup-btn');
+    const importFileInput = document.getElementById('import-file-input');
+
+    if (openBackupBtn) openBackupBtn.addEventListener('click', () => backupModal.classList.remove('hidden'));
+    if (closeBackupModalBtn) closeBackupModalBtn.addEventListener('click', () => backupModal.classList.add('hidden'));
+    if (backupModal) {
+      backupModal.addEventListener('click', (e) => {
+        if (e.target === backupModal) backupModal.classList.add('hidden');
+      });
+    }
+
+    // Export Backup File (Download as JSON)
+    if (exportBackupBtn) {
+      exportBackupBtn.addEventListener('click', () => {
+        try {
+          const dataStr = JSON.stringify(appData, null, 2);
+          const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+          
+          const exportFileDefaultName = `yamyam_health_log_backup_${new Date().toISOString().split('T')[0]}.json`;
+          
+          const linkElement = document.createElement('a');
+          linkElement.setAttribute('href', dataUri);
+          linkElement.setAttribute('download', exportFileDefaultName);
+          linkElement.click();
+        } catch (e) {
+          alert('백업 파일 생성을 실패했습니다: ' + e.message);
+        }
+      });
+    }
+
+    // Import Backup File (Upload JSON & Restore)
+    if (importBackupBtn && importFileInput) {
+      importBackupBtn.addEventListener('click', () => importFileInput.click());
+      importFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          try {
+            const importedData = JSON.parse(event.target.result);
+            
+            if (typeof importedData !== 'object' || importedData === null) {
+              throw new Error('올바르지 않은 백업 파일 형식입니다.');
+            }
+
+            if (confirm('선택한 백업 파일로 기존 데이터를 전부 덮어쓰시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+              appData = importedData;
+              
+              // Save locally
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+              
+              // Upload all imported dates to Cloud Firestore
+              if (firestoreDb) {
+                const batch = firestoreDb.batch();
+                Object.entries(appData).forEach(([dateStr, dayData]) => {
+                  const docRef = firestoreDb.collection('health_logs').doc(dateStr);
+                  batch.set(docRef, dayData);
+                });
+                batch.commit()
+                  .then(() => console.log('All imported database records backed up to cloud.'))
+                  .catch(err => console.error('Cloud batch restore failed:', err));
+              }
+
+              renderUI();
+              backupModal.classList.add('hidden');
+              alert('백업 파일로부터 모든 기록이 성공적으로 복구되었습니다! 🎉');
+            }
+          } catch (err) {
+            alert('파일을 불러오는 도중 오류가 발생했습니다: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
+
     // Goal Setting Modal Listeners
     if (openGoalBtn) openGoalBtn.addEventListener('click', openGoalModal);
     if (calorieGoalTrigger) calorieGoalTrigger.addEventListener('click', openGoalModal);
