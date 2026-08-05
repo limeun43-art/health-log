@@ -622,6 +622,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const dayData = getDayData(currentDate);
     const foods = dayData.foods || [];
 
+    // Correct any 0 or missing calories in memory dynamically (fixes past entered items)
+    foods.forEach(food => {
+      let displayCal = parseInt(food.calories);
+      if (!displayCal || isNaN(displayCal) || displayCal === 0) {
+        const foodName = food.name.trim().toLowerCase();
+        let matched = FOOD_SEARCH_DATABASE.find(item => item.name.toLowerCase() === foodName);
+        if (!matched) {
+          matched = FOOD_SEARCH_DATABASE.find(item => 
+            foodName.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(foodName)
+          );
+        }
+        if (!matched && typeof CUISINE_PRESETS !== 'undefined') {
+          Object.values(CUISINE_PRESETS).flat().forEach(item => {
+            if (item.name.toLowerCase() === foodName || foodName.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(foodName)) {
+              matched = item;
+            }
+          });
+        }
+        if (matched) {
+          displayCal = matched.cal;
+        } else {
+          if (foodName.includes('김')) displayCal = 15;
+          else if (foodName.includes('과자') || foodName.includes('스낵') || foodName.includes('칩')) displayCal = 200;
+          else if (foodName.includes('밥')) displayCal = 300;
+          else if (foodName.includes('찌개') || foodName.includes('국')) displayCal = 150;
+          else if (foodName.includes('볶음밥')) displayCal = 450;
+          else if (foodName.includes('면') || foodName.includes('우동') || foodName.includes('라면')) displayCal = 500;
+          else if (foodName.includes('고기') || foodName.includes('구이') || foodName.includes('삼겹살')) displayCal = 400;
+          else if (foodName.includes('샐러드')) displayCal = 150;
+          else if (foodName.includes('음료') || foodName.includes('주스')) displayCal = 100;
+          else if (foodName.includes('커피')) displayCal = 10;
+          else displayCal = 150;
+        }
+        food.calories = displayCal;
+      }
+    });
+
     const totalCal = foods.reduce((sum, item) => sum + (parseInt(item.calories) || 0), 0);
     totalCaloriesEl.textContent = totalCal.toLocaleString();
     if (targetCaloriesText) targetCaloriesText.textContent = targetCalories.toLocaleString();
