@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      display: flex;
+      gap: 50px;
+      padding: 50px;
+    }
+    .container {
+      position: relative;
+      border: 1px solid red;
+    }
+    img {
+      display: block;
+      width: 250px;
+      height: auto;
+    }
+    .dot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: blue;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h3>Female (Left)</h3>
+    <div class="container" id="left-container">
+      <img src="giraffe_female_real_1785475134743.png" id="img-left">
+    </div>
+  </div>
+  <div>
+    <h3>Male (Right)</h3>
+    <div class="container" id="right-container">
+      <img src="giraffe_male_real_1785475145420.png" id="img-right">
+    </div>
+  </div>
+  <div style="margin-left: 50px;">
+    <h3>Coordinates Log</h3>
+    <textarea id="log" cols="40" rows="20"></textarea>
+  </div>
+
+  <script>
+    const logVal = document.getElementById('log');
+    
+    function attachTracker(containerId, label) {
+      const container = document.getElementById(containerId);
+      container.addEventListener('click', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        
+        // Add visual dot
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.style.left = x + '%';
+        dot.style.top = y + '%';
+        container.appendChild(dot);
+        
+        logVal.value += `${label} - top: ${y.toFixed(1)}%, left: ${x.toFixed(1)}%\n`;
+      });
+    }
+    
+    attachTracker('left-container', 'Left Giraffe');
+    attachTracker('right-container', 'Right Giraffe');
+  </script>
+</body>
+</html>

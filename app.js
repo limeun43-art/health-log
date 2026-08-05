@@ -249,7 +249,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const statTopFoodsEl = document.getElementById('stat-top-foods');
   const statHistoryListEl = document.getElementById('stat-history-list');
 
-  // === DATA STORAGE HELPERS ===
+  // === DATA STORAGE & FIREBASE CONFIG ===
+  const firebaseConfig = {
+    apiKey: "AIzaSyBvo44RFIPYi7AIvw-wMmZ9JXTd31ZZjsY",
+    authDomain: "lim-coding-lab.firebaseapp.com",
+    projectId: "lim-coding-lab",
+    storageBucket: "lim-coding-lab.firebasestorage.app",
+    messagingSenderId: "159095038942",
+    appId: "1:159095038942:web:4985d820501682e281734f"
+  };
+
+  let firestoreDb = null;
+  try {
+    if (typeof firebase !== 'undefined') {
+      firebase.initializeApp(firebaseConfig);
+      firestoreDb = firebase.firestore();
+      console.log("🔥 Firebase Cloud Firestore successfully initialized!");
+    } else {
+      console.warn("Firebase SDK not loaded yet.");
+    }
+  } catch (e) {
+    console.error("Firebase initialization failed:", e);
+  }
+
   function loadDataFromStorage() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -261,30 +283,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function syncBackendData() {
+    // 1. Load locally immediately
+    appData = loadDataFromStorage();
+    renderUI();
+
+    // 2. Fetch from Firebase Firestore to sync newer logs
+    if (!firestoreDb) return;
     try {
-      const res = await fetch(`${API_BASE}/logs`);
-      if (res.ok) {
-        const json = await res.json();
-        if (json.success && json.data) {
-          appData = { ...appData, ...json.data };
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-          renderUI();
+      const querySnapshot = await firestoreDb.collection('health_logs').get();
+      let hasUpdates = false;
+      querySnapshot.forEach((doc) => {
+        const dateStr = doc.id;
+        const cloudDayData = doc.data();
+        
+        if (!appData[dateStr]) {
+          appData[dateStr] = cloudDayData;
+          hasUpdates = true;
+        } else {
+          // Merge local and cloud data to prevent overwriting
+          appData[dateStr] = {
+            water: Math.max(appData[dateStr].water || 0, cloudDayData.water || 0),
+            celebrated: appData[dateStr].celebrated || cloudDayData.celebrated || false,
+            foods: mergeListById(appData[dateStr].foods || [], cloudDayData.foods || []),
+            exercises: mergeListById(appData[dateStr].exercises || [], cloudDayData.exercises || []),
+            tripleStampCelebrated: appData[dateStr].tripleStampCelebrated || cloudDayData.tripleStampCelebrated || false
+          };
+          hasUpdates = true;
         }
+      });
+
+      if (hasUpdates) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+        renderUI();
       }
     } catch (e) {
-      console.log('Backend API server offline, using local storage.');
+      console.log('Firebase sync offline or permissions issue. Using local storage.', e);
     }
+  }
+
+  function mergeListById(localList, cloudList) {
+    const map = {};
+    localList.forEach(item => { if (item.id) map[item.id] = item; });
+    cloudList.forEach(item => { if (item.id) map[item.id] = item; });
+    return Object.values(map);
   }
 
   function saveDataToStorage() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
       const dayData = getDayData(currentDate);
-      fetch(`${API_BASE}/logs/${currentDate}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dayData)
-      }).catch(err => console.log('Backend sync offline'));
+
+      // Save to Firebase Firestore
+      if (firestoreDb) {
+        firestoreDb.collection('health_logs').doc(currentDate).set(dayData)
+          .then(() => console.log(`Cloud storage sync success for date: ${currentDate}`))
+          .catch(err => console.error('Cloud storage sync failed:', err));
+      }
     } catch (e) {
       console.error('Failed to save to storage:', e);
     }
