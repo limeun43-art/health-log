@@ -85,6 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const FOOD_SEARCH_DATABASE = [
+    { name: '김', cal: 15, display: '김 (15kcal / 1봉)' },
+    { name: '조미김', cal: 15, display: '조미김 (15kcal / 1봉)' },
+    { name: '과자', cal: 200, display: '과자 (200kcal / 1봉)' },
+    { name: '볶음밥', cal: 450, display: '볶음밥 (450kcal / 1공기)' },
     { name: '삶은 계란', cal: 80, display: '삶은 계란 (80kcal / 1개)' },
     { name: '골드키위', cal: 55, display: '골드키위 (55kcal / 1개)' },
     { name: '바나나', cal: 90, display: '바나나 (90kcal / 1개)' },
@@ -679,12 +683,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function addFoodItem(mealType, cuisineType, name, calories) {
     const dayData = getDayData(currentDate);
+    
+    let finalCal = parseInt(calories);
+    if (!calories || isNaN(finalCal) || finalCal === 0) {
+      const foodName = name.trim().toLowerCase();
+      
+      // 1. Exact match in search database
+      let matched = FOOD_SEARCH_DATABASE.find(item => item.name.toLowerCase() === foodName);
+      
+      // 2. Fuzzy match in search database
+      if (!matched) {
+        matched = FOOD_SEARCH_DATABASE.find(item => 
+          foodName.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(foodName)
+        );
+      }
+
+      // 3. Match in cuisine presets
+      if (!matched && typeof CUISINE_PRESETS !== 'undefined') {
+        Object.values(CUISINE_PRESETS).flat().forEach(item => {
+          if (item.name.toLowerCase() === foodName || foodName.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(foodName)) {
+            matched = item;
+          }
+        });
+      }
+
+      if (matched) {
+        finalCal = matched.cal;
+      } else {
+        // 4. Keyword Fallback Heuristics
+        if (foodName.includes('김')) finalCal = 15;
+        else if (foodName.includes('과자') || foodName.includes('스낵') || foodName.includes('칩')) finalCal = 200;
+        else if (foodName.includes('밥')) finalCal = 300;
+        else if (foodName.includes('찌개') || foodName.includes('국')) finalCal = 150;
+        else if (foodName.includes('볶음밥')) finalCal = 450;
+        else if (foodName.includes('면') || foodName.includes('우동') || foodName.includes('라면')) finalCal = 500;
+        else if (foodName.includes('고기') || foodName.includes('구이') || foodName.includes('삼겹살')) finalCal = 400;
+        else if (foodName.includes('샐러드')) finalCal = 150;
+        else if (foodName.includes('음료') || foodName.includes('주스')) finalCal = 100;
+        else if (foodName.includes('커피')) finalCal = 10;
+        else finalCal = 150; // default baseline fallback
+      }
+    }
+
     const newItem = {
       id: 'food_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
       mealType: mealType,
       cuisineType: cuisineType || '한식',
       name: name.trim(),
-      calories: calories ? parseInt(calories) : 0,
+      calories: finalCal,
       createdAt: new Date().toISOString()
     };
 
